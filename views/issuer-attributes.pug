@@ -1,0 +1,126 @@
+extends layout
+
+block content
+    div.w3-top
+        div.w3-bar.w3-dark-gray
+            a(href="/" class="w3-bar-item w3-button")
+                i(class="fas fa-home fa-lg")
+            //div.w3-dropdown-hover
+                //button.w3-button Vydavatel
+                //div(class="w3-dropdown-content w3-bar-block w3-border")
+            a(href="/users" class="w3-bar-item w3-button") Uživatelé
+            a(href="/attributes" class="w3-bar-item w3-button") Atributy
+            a(href="/RA" class="w3-bar-item w3-button") Revokační autorita
+            a(href="/logout" class="w3-bar-item w3-button w3-right")
+                i(class="fas fa-sign-out-alt fa-lg")
+            a(href="/login" class="w3-bar-item w3-button w3-right")
+                i(class="fas fa-user fa-lg")
+            //a(href="/verifier" class="w3-bar-item w3-button") Ověřovatel
+            //a(href="/revoke" class="w3-bar-item w3-button") Revokační autorita
+
+    br
+
+    div.w3-cell-row
+        div.w3-cell.w3-padding-16
+            div.w3-container.w3-gray
+                h2 Atributy
+            div.w3-container
+                div.w3-cell-row
+                    div.w3-cell
+                        h4 Seznam pověření
+                    div.w3-cell.w3-right-align
+                        button.w3-button.w3-circle.w3-hover-white(id="btnRefreshAttributes")
+                            i(class="fas fa-sync-alt")
+
+                div(class="attributeTable" data-url="/refreshAttributes")
+
+                div.w3-right-align.w3-padding-16
+                    button.w3-btn.w3-round-medium.w3-blue-grey.w3-text-black.w3-border.w3-border-grey.w3-padding-small(id="btnAssignAttributes") Vydat pověření
+                    p
+                        label(hidden=true id="messageTable")
+
+        div.w3-container.w3-cell.w3-padding-16(style="width:40%")
+            div.w3-card-4
+                div.w3-container.w3-blue-grey.w3-text-black
+                    h3 Nové pověření
+
+                div.w3-bar.w3-light-gray
+                    button.w3-bar-item.w3-button.w3-blue-gray.w3-text-black.w3-hover-blue-gray.w3-hover-text-black(onclick="changeAttribForm('EID','menuButtonEID')" id="menuButtonEID" class="attribBtn") EID
+                    button.w3-bar-item.w3-button.w3-text-black.w3-hover-blue-gray.w3-hover-text-black(onclick="changeAttribForm('ticket','menuButtonTicket')" id="menuButtonTicket" class="attribBtn") Ticket
+                    button.w3-bar-item.w3-button.w3-text-black.w3-hover-blue-gray.w3-hover-text-black(onclick="changeAttribForm('card','menuButtonCard')" id="menuButtonCard" class="attribBtn") Karta zamestnanca
+                    button.w3-bar-item.w3-button.w3-text-black.w3-hover-blue-gray.w3-hover-text-black(onclick="changeAttribForm('own','menuButtonOwn')" id="menuButtonOwn" class="attribBtn") Vlastné
+
+                div.w3-container
+                    p
+                        label Název pověření
+                        input.w3-input.w3-border.w3-round-medium(name="attributeName" type="text" id="attributeName")
+
+                div.w3-container(style="padding-bottom: 16px" id="EID" class="poverenie")
+                    p
+                        label Jméno a příjmení
+                        input.w3-input.w3-border.w3-round-medium(name="newAttribute" type="text" id="EIDName")
+                    p
+                        label Datum narození
+                        input.w3-input.w3-border.w3-round-medium(name="newAttribute" type="text" id="EIDBirthdate")
+                    p
+                        label Národnost
+                        input.w3-input.w3-border.w3-round-medium(name="newAttribute" type="text" id="EIDNationality")
+                    p
+                        label Adresa trvalého bydliště
+                        input.w3-input.w3-border.w3-round-medium(name="newAttribute" type="text" id="EIDAddress")
+                    p
+                        label Pohlaví
+                        input.w3-input.w3-border.w3-round-medium(name="newAttribute" type="text" id="EIDSex")
+                    button.w3-btn.w3-round-medium.w3-blue-grey.w3-text-black.w3-border.w3-border-grey.w3-padding-small(id="btnNewEID") Vydat pověření
+
+                div.w3-container(style="padding-bottom: 16px;display:none" id="ticket" class="poverenie")
+                    p
+                        label Jméno a příjmení
+                        input.w3-input.w3-border.w3-round-medium(name="newAttribute" type="text" id="ticketName")
+                    p
+                        label Číslo karty
+                        input.w3-input.w3-border.w3-round-medium(name="newAttribute" type="text" id="ticketNumber")
+                    p
+                        label Typ
+                        input.w3-input.w3-border.w3-round-medium(name="newAttribute" type="text" id="ticketType")
+                    button.w3-btn.w3-round-medium.w3-blue-grey.w3-text-black.w3-border.w3-border-grey.w3-padding-small(id="btnNewTicket") Vydat pověření
+
+                div.w3-container(style="padding-bottom: 16px;display:none" id="card" class="poverenie")
+                    p
+                        label Jméno a příjmení
+                        input.w3-input.w3-border.w3-round-medium(name="newAttribute" type="text" id="cardName")
+                    p
+                        label ID zamestnanca
+                        input.w3-input.w3-border.w3-round-medium(name="newAttribute" type="text" id="cardID")
+                    p
+                        label Zamestnávatel
+                        input.w3-input.w3-border.w3-round-medium(name="newAttribute" type="text" id="cardEmployer")
+                    p
+                        label Pozícia zamestnanca
+                        input.w3-input.w3-border.w3-round-medium(name="newAttribute" type="text" id="cardPosition")
+                    button.w3-btn.w3-round-medium.w3-blue-grey.w3-text-black.w3-border.w3-border-grey.w3-padding-small(id="btnNewCard") Vydat pověření
+
+                div.w3-container(style="padding-bottom: 16px;display:none" id="own" class="poverenie")
+                    p
+                        label Počet atribútov
+                        select.w3-select.w3-border.w3-round-medium(id="attributeCount" name="attributeCount")
+                            option(value="" selected="selected" disabled) Vyberte počet
+                            option(value="1") 1
+                            option(value="2") 2
+                            option(value="3") 3
+                            option(value="4") 4
+                            option(value="5") 5
+                            option(value="6") 6
+                            option(value="7") 7
+                            option(value="8") 8
+                            option(value="9") 9
+                    p(id="ownAttributes")
+                    //p
+                    //    label Název
+                    //    input.w3-input.w3-border.w3-round-medium(name="newAttribute" type="text" id="own1")
+                    button.w3-btn.w3-round-medium.w3-blue-grey.w3-text-black.w3-border.w3-border-grey.w3-padding-small(id="btnNewOwn") Vydat pověření
+                div.w3-container
+                    p
+                        label(hidden=true id="message")
+
+    script(src='attributes-client.js')

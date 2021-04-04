@@ -1,0 +1,93 @@
+extends layout
+
+block content
+    div.w3-top
+        div.w3-bar.w3-dark-gray
+            a(href="/" class="w3-bar-item w3-button")
+                i(class="fas fa-home fa-lg")
+            //div.w3-dropdown-hover
+                //button.w3-button Vydavatel
+                //div(class="w3-dropdown-content w3-bar-block w3-border")
+            a(href="/users" class="w3-bar-item w3-button") Uživatelé
+            a(href="/attributes" class="w3-bar-item w3-button") Atributy
+            a(href="/RA" class="w3-bar-item w3-button") Revokační autorita
+            a(href="/logout" class="w3-bar-item w3-button w3-right")
+                i(class="fas fa-sign-out-alt fa-lg")
+            a(href="/login" class="w3-bar-item w3-button w3-right")
+                i(class="fas fa-user fa-lg")
+            //a(href="/verifier" class="w3-bar-item w3-button") Ověřovatel
+            //a(href="/revoke" class="w3-bar-item w3-button") Revokační autorita
+
+    br
+    div.w3-cell-row.w3-margin-top
+        div.w3-container.w3-cell.w3-padding-16.w3-margin-top(style="width:25%")
+            a(href="/users" style="text-decoration: none")
+                div.w3-card-4
+                    div.w3-container.w3-grey.w3-text-black
+                        h3 Uživatelé
+                    div.w3-container.w3-center.w3-padding-16.w3-text-dark-gray
+                        i(class="fas fa-users fa-5x")
+                    div.w3-bar.w3-dark-gray
+                        //a(href="/issuer/users" class="w3-bar-item w3-right")
+                        i.w3-bar-item.w3-right(class="fas fa-sign-in-alt fa-2x")
+
+        div.w3-container.w3-cell.w3-padding-16.w3-margin-top(style="width:25%")
+            a(href="/attributes" style="text-decoration: none")
+                div.w3-card-4
+                    div.w3-container.w3-grey.w3-text-black
+                        h3 Atributy
+                    div.w3-container.w3-center.w3-padding-16.w3-text-dark-gray
+                        i(class="fas fa-clipboard-list fa-5x")
+                    div.w3-bar.w3-dark-gray
+                        //a(href="/issuer/users" class="w3-bar-item w3-right")
+                        i.w3-bar-item.w3-right(class="fas fa-sign-in-alt fa-2x")
+
+    div.w3-card-4.w3-margin-top(style="width:50%;margin-left:25%" id="initiatingRKVAC")
+        header.w3-container.w3-gray
+            h3 Inicializace aplikace RKVAC
+        div.w3-container.w3-padding
+            p Aplikace není inicializována. Na stránce 'Uživatelé' vytvořte nového uživatele, čím aplikaci inicializujete.
+
+    div.w3-card-4.w3-margin-top(style="width:50%;margin-left:25%")
+        header.w3-container.w3-grey
+            h3 Nástroje
+        div.w3-container
+            table.w3-table
+                tr
+                    th Popis
+                    th Soubor
+                    th Akce
+                tr
+                    td Soukromý klíč - vydavatel
+                    td ie_sk.dat
+                    td
+                        form(action="/downloadKey" method="GET")
+                            button.w3-button.w3-round-medium.w3-light-gray.w3-text-black.w3-border.w3-border-grey.w3-padding-small(type='submit' value='Download' id="downloadKeyButton" disabled=true) Stáhnout
+                tr(id='uploadForm')
+                    form(action="/uploadKey" method="POST" enctype="multipart/form-data")
+                        td(style="padding-left:16px") Veřejný klíč - RA
+                        td
+                            input.w3-input(type='file' name='ra_pk.dat')
+                        td
+                            button.w3-button.w3-round-medium.w3-light-gray.w3-text-black.w3-border.w3-border-grey.w3-padding-small(type='submit' value='Upload') Nahrát
+                tr(id="deleteForm" hidden=true)
+                    form(action="/deleteKey" method="GET")
+                        td(style="padding-left:16px") Veřejný klíč - RA
+                        td ra_pk.dat
+                        td
+                            button.w3-button.w3-round-medium.w3-light-gray.w3-text-black.w3-border.w3-border-grey.w3-padding-small(type='submit' value='Delete') Vymazat
+
+    div.w3-card-4.w3-margin-top(style="width:50%;margin-left:25%")
+        header.w3-container.w3-grey
+            h3 Čtečka karet
+        div.w3-container
+            div.w3-center.w3-margin-top
+                label.w3-text-red(id="cardStatus") Čtečka nedostupná
+                div(id="readerList")
+            div.w3-container.w3-margin-bottom
+                button.w3-button.w3-border.w3-round-medium.w3-padding-small(id="testCard" onclick="testReader()" hidden=true) Test
+            div.w3-container.w3-margin-bottom
+                label.w3-text-green(id="cardConnected" hidden=true) Karta je funkční
+                label.w3-text-red(id="cardDisconnected" hidden=true) Karta není funkční
+
+    script(src='index-client.js')
