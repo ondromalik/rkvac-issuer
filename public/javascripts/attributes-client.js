@@ -90,6 +90,7 @@
         }).then(function (response) {
             if (response.ok) {
                 messageOK();
+                location.reload();
                 return;
             }
             if(response.status === 503) {
@@ -134,6 +135,7 @@
         }).then(function (response) {
             if (response.ok) {
                 messageOK();
+                location.reload();
                 return;
             }
             if(response.status === 503) {
@@ -178,6 +180,7 @@
         }).then(function (response) {
             if (response.ok) {
                 messageOK();
+                location.reload();
                 return;
             }
             if(response.status === 503) {
@@ -216,8 +219,6 @@
             document.getElementById(id).value = "";
         }
 
-        console.log(newOwn);
-
         fetch('/post-new-own', {
             method: 'POST',
             body: JSON.stringify(newOwn),
@@ -225,6 +226,7 @@
         }).then(function (response) {
             if (response.ok) {
                 messageOK();
+                location.reload();
                 return;
             }
             if(response.status === 503) {

@@ -23,6 +23,7 @@
                 document.getElementById('message').hidden = false;
                 document.getElementById('message').innerHTML = 'Uživatel vytvořen a přirazen na kartu';
                 document.getElementById('message').className += " w3-text-green";
+                location.reload();
                 return;
             }
             if(response.status === 503) {
