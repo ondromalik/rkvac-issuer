@@ -2,56 +2,49 @@
     function checkRKVAC() {
         fetch('/check-data', {
             method: 'GET'
-        }).then(function(response) {
-            if(response.ok) {
-                console.log('RKVAC is ready');
-                document.getElementById('initiatingRKVAC').hidden = true;
-                return;
-            }
-            if(response.status === 404) {
-                console.log('RKVAC is not ready');
-                return;
-            }
-            throw new Error('Request failed.');
-        }).catch(function(error) {
-            console.log(error);
+        }).then((response) => {
+            response.json().then((data) => {
+                if (data.rkvac) {
+                    activateApp();
+                    return;
+                }
+                throw new Error('Request failed');
+            }).catch((error) => {
+                console.log(error);
+            });
         });
-        fetch('/check-ie-key', {
+        fetch('/check-keys', {
             method: 'GET'
-        }).then(function(response) {
-            if(response.ok) {
-                document.getElementById('downloadKeyButton').disabled = false;
-                return;
-            }
-            if(response.status === 404) {
-                console.log('Issuer`s key not found');
-                return;
-            }
-            throw new Error('Request failed.');
-        }).catch(function(error) {
-            console.log(error);
-        });
-        fetch('/check-ra-key', {
-            method: 'GET'
-        }).then(function(response) {
-            if(response.ok) {
-                console.log('File exists');
-                document.getElementById('uploadForm').hidden = true;
-                document.getElementById('deleteForm').hidden = false;
-                return;
-            }
-            if(response.status === 404) {
-                document.getElementById('deleteForm').hidden = true;
-                document.getElementById('uploadForm').hidden = false;
-                console.log('File not found');
-                return;
-            }
-            throw new Error('Request failed.');
-        }).catch(function(error) {
-            console.log(error);
+        }).then((response) => {
+            response.json().then((data) => {
+                if(data.ieKey) {
+                    document.getElementById('downloadKeyButton').disabled = false;
+                    document.getElementById("attributePanel").className = document.getElementById("attributePanel").className.replace("w3-grey", "w3-blue-gray");
+                    document.getElementById("attributeFooter").className = document.getElementById("attributeFooter").className.replace("w3-grey", "w3-blue-gray");
+                }
+                if(!data.ieKey) {
+                    document.getElementById('downloadKeyButton').disabled = true;
+                    document.getElementById("attributePanel").className = document.getElementById("attributePanel").className.replace("w3-blue-gray", "w3-gray");
+                    document.getElementById("attributeFooter").className = document.getElementById("attributeFooter").className.replace("w3-blue-gray", "w3-gray");
+                }
+                if(data.raKey) {
+                    document.getElementById('uploadForm').hidden = true;
+                    document.getElementById('deleteForm').hidden = false;
+                }
+                if(!data.raKey) {
+                    document.getElementById('deleteForm').hidden = true;
+                    document.getElementById('uploadForm').hidden = false;
+                }
+            }).catch((error) => {
+                console.log(error);
+            });
         });
         ListReaders();
     }
+
+    document.getElementById('deleteKeyButton').addEventListener('click', () => {
+        deleteKey();
+    })
 
     async function contactCard(hexdata) {
         var _readers = await navigator.webcard.readers();
@@ -97,6 +90,26 @@
         });
     }
 
-    // window.onbeforeunload = checkRA();
     window.onload = checkRKVAC;
+
+    function activateApp() {
+        document.getElementById('initiatingRKVAC').hidden = true;
+        document.getElementById("keyPanel").className = document.getElementById("keyPanel").className.replace("w3-grey", "w3-cyan");
+    }
+
+    function deleteKey() {
+        fetch("/deleteKey", {
+            method: 'GET'
+        }).then((response) => {
+            response.json().then((data) => {
+                if (data.success) {
+                    checkRKVAC();
+                    return;
+                }
+                throw new Error('Request failed.');
+            }).catch((error) => {
+                console.log(error);
+            });
+        });
+    }
 }

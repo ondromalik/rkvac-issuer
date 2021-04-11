@@ -13,13 +13,8 @@ var userDB = {
         {
             _id: 1,
             username: 'admin',
-            password: 'jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg='
+            password: 'cW33/8VSFfz5/expPXQikyaDdNVf9dkmXmCgsJ5tn4o='
         },
-        {
-            _id: 2,
-            username: 'steve',
-            password: '588+9PF8OZmpTyxvYS6KiI5bECaHjk4ZOYsjvTjsIho='
-        }
     ]
 };
 

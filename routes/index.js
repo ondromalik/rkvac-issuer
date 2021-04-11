@@ -86,17 +86,17 @@ function loadAttributeFiles() {
 /* Functions for upload ra_pk.dat */
 
 const storage = multer.diskStorage({
-    destination: function(req, file, cb) {
+    destination: function (req, file, cb) {
         cb(null, './data/Issuer/');
     },
 
     // By default, multer removes file extensions so let's add them back
-    filename: function(req, file, cb) {
+    filename: function (req, file, cb) {
         cb(null, file.fieldname);
     }
 });
 
-const keyFilter = function(req, file, cb) {
+const keyFilter = function (req, file, cb) {
     // Accept images only
     if (!file.originalname.match(/\.(dat)$/)) {
         req.fileValidationError = 'Only .dat files are allowed!';
@@ -173,68 +173,38 @@ router.get('/deleteKey', connectEnsureLogin.ensureLoggedIn(), (req, res) => {
             console.error(err)
             return
         }
-        res.redirect('/');
+        res.json({success: true});
     })
 })
 
 router.get('/check-data', connectEnsureLogin.ensureLoggedIn(), (req, res) => {
     fs.access('./data', fs.F_OK, (err) => {
         if (err) {
-            res.sendStatus(404);
+            res.json({rkvac: false});
             return
         }
-        res.sendStatus(200);
+        res.json({rkvac: true});
     })
 });
 
-router.get('/check-ie-key', connectEnsureLogin.ensureLoggedIn(), (req, res) => {
+router.get('/check-keys', connectEnsureLogin.ensureLoggedIn(), (req, res) => {
+    let response = {
+        ieKey: false,
+        raKey: false
+    }
     fs.access('./data/Issuer/ie_sk.dat', fs.F_OK, (err) => {
-        if (err) {
-            res.sendStatus(404);
-            return
+        if (!err) {
+            response.ieKey = true;
         }
-        res.sendStatus(200);
-    })
+        fs.access('./data/Issuer/ra_pk.dat', fs.F_OK, (err) => {
+            if (!err) {
+                response.raKey = true;
+            }
+            res.json({ieKey: response.ieKey, raKey: response.raKey});
+        });
+    });
 });
 
-router.get('/check-ra-key', connectEnsureLogin.ensureLoggedIn(), (req, res) => {
-    fs.access('./data/Issuer/ra_pk.dat', fs.F_OK, (err) => {
-        if (err) {
-            res.sendStatus(404);
-            console.error(err)
-            return
-        }
-        res.sendStatus(200);
-    })
-});
-
-/* RA Functions */
-
-router.get('/RA', connectEnsureLogin.ensureLoggedIn(), (req, res) => {
-    res.render('RA');
-})
-
-router.get('/check-ra-key-RA', connectEnsureLogin.ensureLoggedIn(), (req, res) => {
-    fs.access('./data/RA/ra_pk.dat', fs.F_OK, (err) => {
-        if (err) {
-            res.sendStatus(503);
-            console.error(err)
-            return
-        }
-        res.sendStatus(200);
-    })
-});
-
-
-router.get('/downloadRAKey', connectEnsureLogin.ensureLoggedIn(), (req, res) => {
-    const file = './data/RA/ra_pk.dat';
-    res.download(file);
-});
-
-router.get('/downloadRAParam', connectEnsureLogin.ensureLoggedIn(), (req, res) => {
-    const file = './data/RA/ra_public_parameters.dat';
-    res.download(file);
-});
 
 /* POST metods */
 router.post('/login',
@@ -249,19 +219,20 @@ router.use(bodyParser.json());
 router.post('/post-new-user', connectEnsureLogin.ensureLoggedIn(), (req, res) => {
     console.log('Got body:', req.body.name, req.body.surname);
     var command = "./rkvac-protocol-multos-1.0.0 -p -n '" + req.body.name + "' -s '" + req.body.surname + "'";
-    //var command = "touch /home/ondro/rkvac-temp/file1.txt";
     exec(command, (error, stdout, stderr) => {
         if (error) {
+            console.log(`stdout: ${stdout}`);
             console.log(`error: ${error.message}`);
-            res.sendStatus(503);
+            res.json({success: false});
             return;
         }
         if (stderr) {
+            console.log(`stdout: ${stdout}`);
             console.log(`stderr: ${stderr}`);
-            res.sendStatus(503);
+            res.json({success: false});
             return;
         }
-        res.sendStatus(200);
+        res.json({success: true});
         console.log(`stdout: ${stdout}`);
     });
 });
@@ -389,19 +360,16 @@ router.post('/post-new-own', connectEnsureLogin.ensureLoggedIn(), (req, res) => 
 
 router.post('/uploadKey', connectEnsureLogin.ensureLoggedIn(), (req, res) => {
     // 'profile_pic' is the name of our file input field in the HTML form
-    let upload = multer({ storage: storage, fileFilter: keyFilter}).single('ra_pk.dat');
+    let upload = multer({storage: storage, fileFilter: keyFilter}).single('ra_pk.dat');
 
-    upload(req, res, function(err) {
+    upload(req, res, function (err) {
         if (req.fileValidationError) {
             return res.send(req.fileValidationError);
-        }
-        else if (!req.file) {
-            return res.send('Please select an image to upload');
-        }
-        else if (err instanceof multer.MulterError) {
+        } else if (!req.file) {
+            return res.send('Please select ".dat" file to upload');
+        } else if (err instanceof multer.MulterError) {
             return res.send(err);
-        }
-        else if (err) {
+        } else if (err) {
             return res.send(err);
         }
         res.redirect('/');
