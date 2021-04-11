@@ -5,9 +5,9 @@
 - creating and assigning attributes to ID card (EID, Ticket, Card, User defined)
 - authentication via username & password
 - remote ID card
+- user interface details
 
 ## To do:
-- user interface details
 
 ## Usage:
 - build RKVAC C app directly in project folder
