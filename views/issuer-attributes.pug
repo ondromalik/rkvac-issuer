@@ -26,6 +26,17 @@ block content
                     button.w3-btn.w3-round-medium.w3-blue-grey.w3-text-black.w3-border.w3-border-grey.w3-padding-small(id="btnAssignAttributes") Vydat pověření
                     p.w3-text-green(hidden=true id="messageTabelOK") Pověření vydané na kartu
                     p.w3-text-red(hidden=true id="messageTabelError") Požadavek nebyl úspěšný
+                    p.w3-text-green(hidden=true id="deleteAttributeOK") Pověření vymazáno
+                    p.w3-text-green(hidden=true id="deleteAttributeError") Požadavek nebyl úspěšný
+
+                div.w3-modal(id="attributeInfo")
+                    div.w3-modal-content.w3-card-4(style="width:30%")
+                        header.w3-container.w3-cyan
+                            span.w3-button.w3-display-topright(onclick="document.getElementById('attributeInfo').style.display='none'") &times;
+                            h4 Detaily pověření
+                        div.w3-container
+                            table.w3-table-all.w3-margin-bottom.w3-margin-top(id='attributeList')
+
 
         div.w3-container.w3-cell.w3-padding-16(style="width:40%")
             div.w3-card-4

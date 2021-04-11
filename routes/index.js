@@ -181,7 +181,7 @@ router.get('/deleteKey', connectEnsureLogin.ensureLoggedIn(), (req, res) => {
         }
         res.json({success: true});
     })
-})
+});
 
 router.get('/check-data', connectEnsureLogin.ensureLoggedIn(), (req, res) => {
     fs.access('./data', fs.F_OK, (err) => {
@@ -381,5 +381,37 @@ router.post('/uploadKey', connectEnsureLogin.ensureLoggedIn(), (req, res) => {
     });
 });
 
+router.post('/delete-attribute', connectEnsureLogin.ensureLoggedIn(), (req, res) => {
+    fs.unlink('./data/Issuer/' + req.body.attributeName, (err) => {
+        if (err) {
+            console.error(err)
+            res.json({success: false});
+            return
+        }
+        res.json({success: true});
+    });
+});
+
+router.post('/show-attribute', connectEnsureLogin.ensureLoggedIn(), (req, res) => {
+    let response = {
+        names: [],
+        attributes: []
+    }
+    const fileStream = fs.createReadStream('./data/Issuer/' + req.body.attributeName).on('error', () => {
+        res.json({success: false});
+    });
+    readline.createInterface({
+        input: fileStream,
+        console: false
+    }).on('line', function (line) {
+        if (line !== '') {
+            let words = line.split(';').map(String);
+            response.names.push(words[0]);
+            response.attributes.push(words[1]);
+        }
+    }).on('close', function () {
+        res.json({success: true, names: response.names, attributes: response.attributes});
+    });
+});
 
 module.exports = router;

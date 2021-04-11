@@ -51,6 +51,8 @@
         document.getElementById('messageTabelError').hidden = true;
         document.getElementById('messageOK').hidden = false;
         document.getElementById('messageError').hidden = true;
+        document.getElementById('deleteAttributeOK').hidden = true;
+        document.getElementById('deleteAttributeError').hidden = true;
     }
 
     function messageError() {
@@ -58,6 +60,8 @@
         document.getElementById('messageTabelError').hidden = true;
         document.getElementById('messageOK').hidden = true;
         document.getElementById('messageError').hidden = false;
+        document.getElementById('deleteAttributeOK').hidden = true;
+        document.getElementById('deleteAttributeError').hidden = true;
     }
 
     document.getElementById('btnNewEID').addEventListener('click', function () {
@@ -256,13 +260,93 @@
                     <td>
                         <div class="w3-bar">
                             <input class="w3-radio w3-bar-item attribSelector" type="radio" style="width:33%" name="attribSelect" value=${row}>
-                            <i class="fas fa-info-circle w3-bar-item w3-button w3-hover-none" style="width:33%"></i>
-                            <i class="fas fa-trash w3-bar-item w3-button w3-hover-none" style="width:33%"></i>
+                            <i class="fas fa-info-circle w3-bar-item w3-button w3-hover-none" style="width:33%" onclick="showAttributeInfo('${row}')"></i>
+                            <i class="fas fa-trash w3-bar-item w3-button w3-hover-none" style="width:33%"  onclick="deleteAttribute('${row}')"></i>
                         </div>
                     </td>          
                 </tr>
             `);
         }
+    }
+
+    function deleteAttribute(attributeName) {
+        let attribName = {
+            attributeName: attributeName
+        }
+        fetch('/delete-attribute', {
+            method: 'POST',
+            body: JSON.stringify(attribName),
+            headers: {'Content-Type': 'application/json'}
+        }).then(function (response) {
+            response.json().then((data) => {
+                if (data.success) {
+                    document.getElementById('deleteAttributeOK').hidden = false;
+                    document.getElementById('deleteAttributeError').hidden = true;
+                    document.getElementById('messageTabelOK').hidden = true;
+                    document.getElementById('messageTabelError').hidden = true;
+                    document.getElementById('messageOK').hidden = true;
+                    document.getElementById('messageError').hidden = true;
+                    refreshTable();
+                    return;
+                }
+                if (!data.success) {
+                    document.getElementById('deleteAttributeOK').hidden = true;
+                    document.getElementById('deleteAttributeError').hidden = false;
+                    document.getElementById('messageTabelOK').hidden = true;
+                    document.getElementById('messageTabelError').hidden = true;
+                    document.getElementById('messageOK').hidden = true;
+                    document.getElementById('messageError').hidden = true;
+                    return;
+                }
+                throw new Error('Request failed.');
+            }).catch(function (error) {
+                console.log(error);
+            });
+        })
+    }
+
+    function showAttributeInfo(attributeName) {
+        let attribName = {
+            attributeName: attributeName
+        }
+        fetch('/show-attribute', {
+            method: 'POST',
+            body: JSON.stringify(attribName),
+            headers: {'Content-Type': 'application/json'}
+        }).then(function (response) {
+            response.json().then((data) => {
+                if (data.success) {
+                    let list = document.getElementById('attributeList');
+                    while (list.firstChild) {
+                        list.removeChild(list.firstChild);
+                    }
+                    let header = list.createTHead();
+                    let row = header.insertRow(0);
+                    let th1 = document.createElement('th');
+                    let th2 = document.createElement('th');
+                    th1.innerHTML = "Název";
+                    th2.innerHTML = "Hodnota";
+                    row.appendChild(th1);
+                    row.appendChild(th2);
+
+                    for (let i = 0; i < data.names.length; i++) {
+                        let row = list.insertRow(i+1);
+                        let cell1 = row.insertCell(0);
+                        let cell2 = row.insertCell(1);
+                        cell1.innerHTML = data.names[i] + ":";
+                        cell2.innerHTML = data.attributes[i];
+                    }
+                    document.getElementById('attributeInfo').style.display = 'block';
+                    return;
+                }
+                if (!data.success) {
+                    return;
+                }
+                throw new Error('Request failed.');
+            }).catch(function (error) {
+                console.log(error);
+            });
+        })
     }
 
     document.getElementById('btnRefreshAttributes').addEventListener('click', function (e) {
@@ -287,6 +371,8 @@
                             document.getElementById('messageTabelError').hidden = true;
                             document.getElementById('messageOK').hidden = true;
                             document.getElementById('messageError').hidden = true;
+                            document.getElementById('deleteAttributeOK').hidden = true;
+                            document.getElementById('deleteAttributeError').hidden = true;
                             return;
                         }
                         if (!data.success) {
@@ -294,6 +380,8 @@
                             document.getElementById('messageTabelError').hidden = false;
                             document.getElementById('messageOK').hidden = true;
                             document.getElementById('messageError').hidden = true;
+                            document.getElementById('deleteAttributeOK').hidden = true;
+                            document.getElementById('deleteAttributeError').hidden = true;
                             return;
                         }
                         throw new Error('Request failed.');
@@ -307,5 +395,12 @@
     })
 
     window.onload = refreshTable;
+
+    window.onclick = function (event) {
+        let modal = document.getElementById('attributeInfo');
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    }
 
 }
