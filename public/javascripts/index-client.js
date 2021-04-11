@@ -19,21 +19,21 @@
             response.json().then((data) => {
                 if(data.ieKey) {
                     document.getElementById('downloadKeyButton').disabled = false;
-                    document.getElementById("attributePanel").className = document.getElementById("attributePanel").className.replace("w3-grey", "w3-blue-gray");
-                    document.getElementById("attributeFooter").className = document.getElementById("attributeFooter").className.replace("w3-grey", "w3-blue-gray");
                 }
                 if(!data.ieKey) {
                     document.getElementById('downloadKeyButton').disabled = true;
-                    document.getElementById("attributePanel").className = document.getElementById("attributePanel").className.replace("w3-blue-gray", "w3-gray");
-                    document.getElementById("attributeFooter").className = document.getElementById("attributeFooter").className.replace("w3-blue-gray", "w3-gray");
                 }
                 if(data.raKey) {
                     document.getElementById('uploadForm').hidden = true;
                     document.getElementById('deleteForm').hidden = false;
+                    document.getElementById("attributePanel").className = document.getElementById("attributePanel").className.replace("w3-grey", "w3-blue-gray");
+                    document.getElementById("attributeFooter").className = document.getElementById("attributeFooter").className.replace("w3-grey", "w3-blue-gray");
                 }
                 if(!data.raKey) {
                     document.getElementById('deleteForm').hidden = true;
                     document.getElementById('uploadForm').hidden = false;
+                    document.getElementById("attributePanel").className = document.getElementById("attributePanel").className.replace("w3-blue-gray", "w3-gray");
+                    document.getElementById("attributeFooter").className = document.getElementById("attributeFooter").className.replace("w3-blue-gray", "w3-gray");
                 }
             }).catch((error) => {
                 console.log(error);

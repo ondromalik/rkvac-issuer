@@ -47,31 +47,26 @@
      * Create new attribute
      */
     function messageOK() {
-        document.getElementById('message').hidden = false;
-        document.getElementById('message').innerHTML = 'Pověření vytvořené a vydané na kartu';
-        document.getElementById('message').className = document.getElementById('message').className.replace('w3-text-red', '');
-        document.getElementById('message').className = document.getElementById('message').className.replace('w3-text-green', '');
-        document.getElementById('message').className += " w3-text-green";
+        document.getElementById('messageTabelOK').hidden = true;
+        document.getElementById('messageTabelError').hidden = true;
+        document.getElementById('messageOK').hidden = false;
+        document.getElementById('messageError').hidden = true;
     }
 
     function messageError() {
-        document.getElementById('message').hidden = false;
-        document.getElementById('message').innerHTML = 'Požadavek nebyl úspěšný';
-        document.getElementById('message').className = document.getElementById('message').className.replace('w3-text-green', '');
-        document.getElementById('message').className = document.getElementById('message').className.replace('w3-text-red', '');
-        document.getElementById('message').className += " w3-text-red";
+        document.getElementById('messageTabelOK').hidden = true;
+        document.getElementById('messageTabelError').hidden = true;
+        document.getElementById('messageOK').hidden = true;
+        document.getElementById('messageError').hidden = false;
     }
 
-    const btnNewEID = document.getElementById('btnNewEID');
-    btnNewEID.addEventListener('click', function () {
-        console.log('Client-side OK');
+    document.getElementById('btnNewEID').addEventListener('click', function () {
         let fileName = document.getElementById('attributeName').value;
         let EIDName = document.getElementById('EIDName').value;
         let EIDBirthdate = document.getElementById('EIDBirthdate').value;
         let EIDNationality = document.getElementById('EIDNationality').value;
         let EIDAddress = document.getElementById('EIDAddress').value;
         let EIDSex = document.getElementById('EIDSex').value;
-
         let newEID = {
             fileName: (fileName + '.att'),
             EIDName: EIDName,
@@ -80,29 +75,27 @@
             EIDAddress: EIDAddress,
             EIDSex: EIDSex
         };
-
-        console.log(newEID);
-
         fetch('/post-new-EID', {
             method: 'POST',
             body: JSON.stringify(newEID),
             headers: {'Content-Type': 'application/json'}
         }).then(function (response) {
-            if (response.ok) {
-                messageOK();
-                location.reload();
-                return;
-            }
-            if(response.status === 503) {
-                messageError();
-                return;
-            }
-            throw new Error('Request failed.');
-        }).catch(function (error) {
-            console.log(error);
+            response.json().then((data) => {
+                if (data.success) {
+                    messageOK();
+                    refreshTable();
+                    return;
+                }
+                if (!data.success) {
+                    messageError();
+                    return;
+                }
+                throw new Error('Request failed.');
+            }).catch(function (error) {
+                console.log(error);
+            });
         });
         connect();
-
         document.getElementById('attributeName').value = "";
         document.getElementById('EIDName').value = "";
         document.getElementById('EIDBirthdate').value = "";
@@ -111,9 +104,7 @@
         document.getElementById('EIDSex').value = "";
     });
 
-    const btnNewTicket = document.getElementById('btnNewTicket');
-    btnNewTicket.addEventListener('click', function () {
-        console.log('Client-side OK');
+    document.getElementById('btnNewTicket').addEventListener('click', function () {
         let fileName = document.getElementById('attributeName').value;
         let ticketName = document.getElementById('ticketName').value;
         let ticketNumber = document.getElementById('ticketNumber').value;
@@ -125,44 +116,39 @@
             ticketNumber: ticketNumber,
             ticketType: ticketType
         };
-
-        console.log(newTicket);
-
         fetch('/post-new-ticket', {
             method: 'POST',
             body: JSON.stringify(newTicket),
             headers: {'Content-Type': 'application/json'}
         }).then(function (response) {
-            if (response.ok) {
-                messageOK();
-                location.reload();
-                return;
-            }
-            if(response.status === 503) {
-                messageError();
-                return;
-            }
-            throw new Error('Request failed.');
-        }).catch(function (error) {
-            console.log(error);
+            response.json().then((data) => {
+                if (data.success) {
+                    messageOK();
+                    refreshTable();
+                    return;
+                }
+                if (!data.success) {
+                    messageError();
+                    return;
+                }
+                throw new Error('Request failed.');
+            }).catch(function (error) {
+                console.log(error);
+            });
         });
         connect();
-
         document.getElementById('attributeName').value = "";
         document.getElementById('ticketName').value = "";
         document.getElementById('ticketNumber').value = "";
         document.getElementById('ticketType').value = "";
     });
 
-    const btnNewCard = document.getElementById('btnNewCard');
-    btnNewCard.addEventListener('click', function () {
-        console.log('Client-side OK');
+    document.getElementById('btnNewCard').addEventListener('click', function () {
         let fileName = document.getElementById('attributeName').value;
         let cardName = document.getElementById('cardName').value;
         let cardID = document.getElementById('cardID').value;
         let cardEmployer = document.getElementById('cardEmployer').value;
         let cardPosition = document.getElementById('cardPosition').value;
-
         let newCard = {
             fileName: (fileName + '.att'),
             cardName: cardName,
@@ -170,29 +156,27 @@
             cardEmployer: cardEmployer,
             cardPosition: cardPosition
         };
-
-        console.log(newCard);
-
         fetch('/post-new-card', {
             method: 'POST',
             body: JSON.stringify(newCard),
             headers: {'Content-Type': 'application/json'}
         }).then(function (response) {
-            if (response.ok) {
-                messageOK();
-                location.reload();
-                return;
-            }
-            if(response.status === 503) {
-                messageError();
-                return;
-            }
-            throw new Error('Request failed.');
-        }).catch(function (error) {
-            console.log(error);
+            response.json().then((data) => {
+                if (data.success) {
+                    messageOK();
+                    refreshTable();
+                    return;
+                }
+                if (!data.success) {
+                    messageError();
+                    return;
+                }
+                throw new Error('Request failed.');
+            }).catch(function (error) {
+                console.log(error);
+            });
         });
         connect();
-
         document.getElementById('attributeName').value = "";
         document.getElementById('cardName').value = "";
         document.getElementById('cardID').value = "";
@@ -200,63 +184,55 @@
         document.getElementById('cardPosition').value = "";
     });
 
-    const btnNewOwn = document.getElementById('btnNewOwn');
-    btnNewOwn.addEventListener('click', function () {
-        console.log('Client-side OK');
+    document.getElementById('btnNewOwn').addEventListener('click', function () {
         let fileName = document.getElementById('attributeName').value;
         let attributeCount = document.getElementById('attributeCount').value;
-
         let newOwn = {
             fileName: (fileName + '.att'),
             attributeCount: attributeCount
         };
-
         for (let i = 0; i < attributeCount; i++) {
             let id = 'own' + i;
             let attribName = 'own' + i;
-            let own = document.getElementById(id).value;
-            newOwn[attribName] = own;
+            newOwn[attribName] = document.getElementById(id).value;
             document.getElementById(id).value = "";
         }
-
         fetch('/post-new-own', {
             method: 'POST',
             body: JSON.stringify(newOwn),
             headers: {'Content-Type': 'application/json'}
         }).then(function (response) {
-            if (response.ok) {
-                messageOK();
-                location.reload();
-                return;
-            }
-            if(response.status === 503) {
-                messageError();
-                return;
-            }
-            throw new Error('Request failed.');
-        }).catch(function (error) {
-            console.log(error);
+            response.json().then((data) => {
+                if (data.success) {
+                    messageOK();
+                    refreshTable();
+                    return;
+                }
+                if (!data.success) {
+                    messageError();
+                    return;
+                }
+                throw new Error('Request failed.');
+            }).catch(function (error) {
+                console.log(error);
+            });
         });
         connect();
-
         document.getElementById('attributeName').value = "";
-
     });
 
-}
-
-{
-    /**
-     * Populates attribute table with attribute files
-     *
-     */
-
-    async function refreshTable(root) {
-        console.log("Table refreshed!");
+    async function refreshTable() {
+        const root = document.querySelector(".attributeTable[data-url]");
 
         const table = root.querySelector(".table-attributeTable");
-        const response = await fetch(root.dataset.url)
-        const attribFiles = await response.json()
+        const response = await fetch(root.dataset.url).catch(function (error) {
+            console.log(error);
+        });
+        const attribFiles = await response.json();
+        if (attribFiles.error === true) {
+            console.log("Failed to get data");
+            return;
+        }
 
         //Clear table
         table.querySelector("thead tr").innerHTML = "";
@@ -287,41 +263,13 @@
                 </tr>
             `);
         }
-
-        // console.log(attribFiles);
-
     }
 
-    for (const root of document.querySelectorAll(".attributeTable[data-url]")) {
-        const btnRefreshAttributes = document.getElementById('btnRefreshAttributes');
-        const table = document.createElement("table");
-        table.classList.add("w3-table-all");
-        table.classList.add("w3-gray");
-        table.classList.add("table-attributeTable");
+    document.getElementById('btnRefreshAttributes').addEventListener('click', function (e) {
+        refreshTable();
+    })
 
-        table.innerHTML = `
-            <thead>
-                <tr class="w3-light-gray"></tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Načítavam</td>
-                </tr>
-            </tbody>
-        `;
-
-        root.append(table);
-
-        btnRefreshAttributes.addEventListener('click', function (e) {
-            console.log('Button clicked!');
-            refreshTable(root);
-        })
-
-        refreshTable(root);
-    }
-
-    const btnAssignAttributes = document.getElementById('btnAssignAttributes');
-    btnAssignAttributes.addEventListener('click', function () {
+    document.getElementById('btnAssignAttributes').addEventListener('click', function () {
         let tableRows = document.getElementsByClassName('attribSelector');
         for (let i = 0; i < tableRows.length; i++) {
             if (tableRows[i].checked) {
@@ -331,31 +279,33 @@
                 fetch('/post-new-attribute', {
                     method: 'POST',
                     body: JSON.stringify(selectedFile),
-                    headers: { 'Content-Type': 'application/json'}
-                }).then(function(response) {
-                    if(response.ok) {
-                        document.getElementById('messageTable').hidden = false;
-                        document.getElementById('messageTable').innerHTML = 'Pověření vytvořené a vydané na kartu';
-                        document.getElementById('messageTable').className = document.getElementById('messageTable').className.replace('w3-text-green', '');
-                        document.getElementById('messageTable').className = document.getElementById('messageTable').className.replace('w3-text-red', '');
-                        document.getElementById('messageTable').className += " w3-text-green";
-                        return;
-                    }
-                    if(response.status === 503) {
-                        document.getElementById('messageTable').hidden = false;
-                        document.getElementById('messageTable').innerHTML = 'Požadavek nebyl úspěšný';
-                        document.getElementById('messageTable').className = document.getElementById('messageTable').className.replace('w3-text-green', '');
-                        document.getElementById('messageTable').className = document.getElementById('messageTable').className.replace('w3-text-red', '');
-                        document.getElementById('messageTable').className += " w3-text-red";
-                        return;
-                    }
-                    throw new Error('Request failed.');
-                }).catch(function(error) {
+                    headers: {'Content-Type': 'application/json'}
+                }).then(function (response) {
+                    response.json().then((data) => {
+                        if (data.success) {
+                            document.getElementById('messageTabelOK').hidden = false;
+                            document.getElementById('messageTabelError').hidden = true;
+                            document.getElementById('messageOK').hidden = true;
+                            document.getElementById('messageError').hidden = true;
+                            return;
+                        }
+                        if (!data.success) {
+                            document.getElementById('messageTabelOK').hidden = true;
+                            document.getElementById('messageTabelError').hidden = false;
+                            document.getElementById('messageOK').hidden = true;
+                            document.getElementById('messageError').hidden = true;
+                            return;
+                        }
+                        throw new Error('Request failed.');
+                    }).catch(function (error) {
                         console.log(error);
                     });
+                })
                 connect();
             }
         }
     })
+
+    window.onload = refreshTable;
 
 }

@@ -137,27 +137,33 @@ router.get('/attributes', connectEnsureLogin.ensureLoggedIn(), function (req, re
     res.render('issuer-attributes');
 });
 
-router.get('/refreshUsers', connectEnsureLogin.ensureLoggedIn(), async function (req, res) {
+router.get('/refreshUsers', connectEnsureLogin.ensureLoggedIn(), function (req, res) {
     userData.rows = [];
-    await loadUsers('./data/Issuer/user_list.csv').then(function (data) {
+    loadUsers('./data/Issuer/user_list.csv').then(function (data) {
         res.json({
             headers: data.headers,
             rows: data.rows
         })
     }).catch(err => {
         console.log('Error: ' + err);
+        res.json({
+            error: true
+        })
     })
 });
 
-router.get('/refreshAttributes', connectEnsureLogin.ensureLoggedIn(), async function (req, res) {
+router.get('/refreshAttributes', connectEnsureLogin.ensureLoggedIn(), function (req, res) {
     attribFiles.rows = [];
-    await loadAttributeFiles().then(function (data) {
+    loadAttributeFiles().then(function (data) {
         res.json({
             headers: data.headers,
             rows: data.rows
         })
     }).catch(err => {
         console.log('Error: ' + err);
+        res.json({
+            error: true
+        })
     })
 });
 
@@ -240,21 +246,20 @@ router.post('/post-new-user', connectEnsureLogin.ensureLoggedIn(), (req, res) =>
 router.post('/post-new-attribute', connectEnsureLogin.ensureLoggedIn(), (req, res) => {
     console.log('Got body:', req.body);
     var command = "printf '\\ny' | ./rkvac-protocol-multos-1.0.0 -i -a " + req.body.fileName;
-    //var command = "touch /home/ondro/rkvac-temp/file1.txt";
     exec(command, (error, stdout, stderr) => {
         if (error) {
             console.log(`stdout: ${stdout}`);
             console.log(`error: ${error.message}`);
-            res.sendStatus(503);
+            res.json({success: false});
             return;
         }
         if (stderr) {
             console.log(`stdout: ${stdout}`);
             console.log(`stderr: ${stderr}`);
-            res.sendStatus(503);
+            res.json({success: false});
             return;
         }
-        res.sendStatus(200);
+        res.json({success: true});
         console.log(`stdout: ${stdout}`);
     });
 
@@ -270,16 +275,16 @@ router.post('/post-new-EID', connectEnsureLogin.ensureLoggedIn(), (req, res) => 
         if (error) {
             console.log(`stdout: ${stdout}`);
             console.log(`error: ${error.message}`);
-            res.sendStatus(503);
+            res.json({success: false});
             return;
         }
         if (stderr) {
             console.log(`stdout: ${stdout}`);
             console.log(`stderr: ${stderr}`);
-            res.sendStatus(503);
+            res.json({success: false});
             return;
         }
-        res.sendStatus(200);
+        res.json({success: true});
         console.log(`stdout: ${stdout}`);
     });
 });
@@ -293,16 +298,16 @@ router.post('/post-new-ticket', connectEnsureLogin.ensureLoggedIn(), (req, res) 
         if (error) {
             console.log(`stdout: ${stdout}`);
             console.log(`error: ${error.message}`);
-            res.sendStatus(503);
+            res.json({success: false});
             return;
         }
         if (stderr) {
             console.log(`stdout: ${stdout}`);
             console.log(`stderr: ${stderr}`);
-            res.sendStatus(503);
+            res.json({success: false});
             return;
         }
-        res.sendStatus(200);
+        res.json({success: true});
         console.log(`stdout: ${stdout}`);
     });
 });
@@ -314,18 +319,18 @@ router.post('/post-new-card', connectEnsureLogin.ensureLoggedIn(), (req, res) =>
     console.log(command);
     exec(command, (error, stdout, stderr) => {
         if (error) {
-            res.sendStatus(503);
+            res.json({success: false});
             console.log(`stdout: ${stdout}`);
             console.log(`error: ${error.message}`);
             return;
         }
         if (stderr) {
-            res.sendStatus(503);
+            res.json({success: false});
             console.log(`stdout: ${stdout}`);
             console.log(`stderr: ${stderr}`);
             return;
         }
-        res.sendStatus(200);
+        res.json({success: true});
         console.log(`stdout: ${stdout}`);
     });
 });
@@ -342,18 +347,18 @@ router.post('/post-new-own', connectEnsureLogin.ensureLoggedIn(), (req, res) => 
     console.log(command);
     exec(command, (error, stdout, stderr) => {
         if (error) {
-            res.sendStatus(503);
+            res.json({success: false});
             console.log(`stdout: ${stdout}`);
             console.log(`error: ${error.message}`);
             return;
         }
         if (stderr) {
-            res.sendStatus(503);
+            res.json({success: false});
             console.log(`stdout: ${stdout}`);
             console.log(`stderr: ${stderr}`);
             return;
         }
-        res.sendStatus(200);
+        res.json({success: true});
         console.log(`stdout: ${stdout}`);
     });
 });
@@ -376,24 +381,5 @@ router.post('/uploadKey', connectEnsureLogin.ensureLoggedIn(), (req, res) => {
     });
 });
 
-router.post('/initiateRA', connectEnsureLogin.ensureLoggedIn(), (req, res) => {
-    let command = "./rkvac-protocol-multos-1.0.0 -r";
-    exec(command, (error, stdout, stderr) => {
-        if (error) {
-            console.log(`stdout: ${stdout}`);
-            console.log(`error: ${error.message}`);
-            res.sendStatus(503);
-            return;
-        }
-        if (stderr) {
-            console.log(`stdout: ${stdout}`);
-            console.log(`stderr: ${stderr}`);
-            res.sendStatus(200);
-            return;
-        }
-        console.log(`stdout: ${stdout}`);
-        res.sendStatus(200);
-    });
-});
 
 module.exports = router;

@@ -4,7 +4,7 @@ block content
 
     div.w3-cell-row
         div.w3-cell.w3-padding-16
-            div.w3-container.w3-gray
+            div.w3-container.w3-light-blue
                 h2 Atributy
             div.w3-container
                 div.w3-cell-row
@@ -15,11 +15,17 @@ block content
                             i(class="fas fa-sync-alt")
 
                 div(class="attributeTable" data-url="/refreshAttributes")
+                    table(class="w3-table-all w3-gray table-attributeTable")
+                        thead
+                            tr.w3-light-gray
+                        tbody
+                            tr
+                                td Seznam je prázdny
 
                 div.w3-right-align.w3-padding-16
                     button.w3-btn.w3-round-medium.w3-blue-grey.w3-text-black.w3-border.w3-border-grey.w3-padding-small(id="btnAssignAttributes") Vydat pověření
-                    p
-                        label(hidden=true id="messageTable")
+                    p.w3-text-green(hidden=true id="messageTabelOK") Pověření vydané na kartu
+                    p.w3-text-red(hidden=true id="messageTabelError") Požadavek nebyl úspěšný
 
         div.w3-container.w3-cell.w3-padding-16(style="width:40%")
             div.w3-card-4
@@ -102,7 +108,7 @@ block content
                     //    input.w3-input.w3-border.w3-round-medium(name="newAttribute" type="text" id="own1")
                     button.w3-btn.w3-round-medium.w3-blue-grey.w3-text-black.w3-border.w3-border-grey.w3-padding-small(id="btnNewOwn") Vydat pověření
                 div.w3-container
-                    p
-                        label(hidden=true id="message")
+                    p.w3-text-green(hidden=true id="messageOK") Pověření vytvořené a vydané na kartu
+                    p.w3-text-red(hidden=true id="messageError") Požadavek nebyl úspěšný
 
     script(src='attributes-client.js')

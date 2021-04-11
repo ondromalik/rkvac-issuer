@@ -39,24 +39,28 @@
 
     async function refreshTable() {
         const root = document.querySelector(".userTable[data-url]");
-        const table2 = root.querySelector(".table-userTable");
+        const table = root.querySelector(".table-userTable");
         const response = await fetch(root.dataset.url).catch(function (error) {
             console.log(error);
         });
         const userData = await response.json();
+        if (userData.error === true) {
+            console.log("Failed to get data");
+            return;
+        }
 
         //Clear table
-        table2.querySelector("thead tr").innerHTML = "";
-        table2.querySelector("tbody").innerHTML = "";
+        table.querySelector("thead tr").innerHTML = "";
+        table.querySelector("tbody").innerHTML = "";
 
         //Populate headers
         for (const header of userData.headers) {
-            table2.querySelector("thead tr").insertAdjacentHTML("beforeend", `<th>${header}</th>`);
+            table.querySelector("thead tr").insertAdjacentHTML("beforeend", `<th>${header}</th>`);
         }
 
         //Populate rows
         for (const row of userData.rows) {
-            table2.querySelector("tbody").insertAdjacentHTML("beforeend", `
+            table.querySelector("tbody").insertAdjacentHTML("beforeend", `
                 <tr>
                     ${row.map(col => `<td>${col}</td>`).join("")}               
                 </tr>
