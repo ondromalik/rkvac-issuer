@@ -111,3 +111,5 @@ temp-data/
 
 # Binary data
 .DS_Store
+
+data/
