@@ -64,6 +64,26 @@
         });
     })
 
+    document.getElementById('resetRKVAC').addEventListener('click', () => {
+        var really = confirm("Chystáte se vymazat veškerou RKVAC konfiguraci.\nPřejete si pokračovat?");
+        if (really) {
+            fetch("/deleteData", {
+                method: 'POST'
+            }).then((response) => {
+                response.json().then((data) => {
+                    if (data.success) {
+                        location.reload();
+                        return;
+                    }
+                    document.getElementById('resetMessage').hidden = false;
+                    throw new Error('Request failed.');
+                }).catch((error) => {
+                    console.log(error);
+                });
+            });
+        }
+    });
+
     async function contactCard(hexdata) {
         var _readers = await navigator.webcard.readers();
         let atr = await _readers[0].connect(true);
@@ -97,13 +117,15 @@
     }
 
     function testReader() {
-        contactCard('00A4040000').then(res => {
+        contactCard('00A40400077675743231303100').then(res => {
             if (res === '9000') {
                 document.getElementById("cardConnected").hidden = false;
+                document.getElementById("cardDisconnected").hidden = true;
             }
             console.log("APDU response: " + res);
         }).catch(function (error) {
             document.getElementById("cardDisconnected").hidden = false;
+            document.getElementById("cardConnected").hidden = true;
             console.log(error);
         });
     }

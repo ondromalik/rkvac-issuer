@@ -442,4 +442,15 @@ router.post('/show-attribute', connectEnsureLogin.ensureLoggedIn(), (req, res) =
     });
 });
 
+router.post('/deleteData', connectEnsureLogin.ensureLoggedIn(), (req, res) => {
+    fs.rmdir('./data', {recursive: true}, err => {
+        if (err) {
+            console.log(err);
+            res.json({success: false});
+            return;
+        }
+        res.json({success: true});
+    });
+});
+
 module.exports = router;
