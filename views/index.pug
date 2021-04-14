@@ -38,12 +38,20 @@ block content
                     th Popis
                     th Soubor
                     th Akce
-                tr
+                tr(id="downloadIEForm" hidden=true)
                     td Soukromý klíč - vydavatel
                     td ie_sk.dat
                     td
                         form(action="/downloadKey" method="GET")
-                            button.w3-button.w3-round-medium.w3-light-gray.w3-text-black.w3-border.w3-border-grey.w3-padding-small(type='submit' value='Download' id="downloadKeyButton" disabled=true) Stáhnout
+                            button.w3-button.w3-round-medium.w3-light-gray.w3-text-black.w3-border.w3-border-grey.w3-padding-small.w3-margin-right(type='submit' value='Download' id="downloadKeyButton") Stáhnout
+                            button.w3-button.w3-round-medium.w3-light-gray.w3-text-black.w3-border.w3-border-grey.w3-padding-small(type='button' id="deleteIEButton") Vymazat
+                tr(id="uploadIEForm")
+                    form(action="/uploadIEKey" method="POST" enctype="multipart/form-data")
+                        td(style="padding-left:16px") Soukromý klíč - vydavatel
+                        td
+                            input.w3-input(type='file' name='ie_sk.dat')
+                        td
+                            button.w3-button.w3-round-medium.w3-light-gray.w3-text-black.w3-border.w3-border-grey.w3-padding-small(type='submit' value='Upload') Nahrát
                 tr(id='uploadForm')
                     form(action="/uploadKey" method="POST" enctype="multipart/form-data")
                         td(style="padding-left:16px") Veřejný klíč - RA

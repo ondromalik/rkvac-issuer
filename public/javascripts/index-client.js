@@ -18,10 +18,12 @@
         }).then((response) => {
             response.json().then((data) => {
                 if(data.ieKey) {
-                    document.getElementById('downloadKeyButton').disabled = false;
+                    document.getElementById('downloadIEForm').hidden = false;
+                    document.getElementById('uploadIEForm').hidden = true;
                 }
                 if(!data.ieKey) {
-                    document.getElementById('downloadKeyButton').disabled = true;
+                    document.getElementById('downloadIEForm').hidden = true;
+                    document.getElementById('uploadIEForm').hidden = false;
                 }
                 if(data.raKey) {
                     document.getElementById('uploadForm').hidden = true;
@@ -44,6 +46,22 @@
 
     document.getElementById('deleteKeyButton').addEventListener('click', () => {
         deleteKey();
+    })
+
+    document.getElementById('deleteIEButton').addEventListener('click', () => {
+        fetch("/deleteIEKey", {
+            method: 'GET'
+        }).then((response) => {
+            response.json().then((data) => {
+                if (data.success) {
+                    checkRKVAC();
+                    return;
+                }
+                throw new Error('Request failed.');
+            }).catch((error) => {
+                console.log(error);
+            });
+        });
     })
 
     async function contactCard(hexdata) {

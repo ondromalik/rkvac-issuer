@@ -183,6 +183,16 @@ router.get('/deleteKey', connectEnsureLogin.ensureLoggedIn(), (req, res) => {
     })
 });
 
+router.get('/deleteIEKey', connectEnsureLogin.ensureLoggedIn(), (req, res) => {
+    fs.unlink('./data/Issuer/ie_sk.dat', (err) => {
+        if (err) {
+            console.error(err)
+            return
+        }
+        res.json({success: true});
+    })
+});
+
 router.get('/check-data', connectEnsureLogin.ensureLoggedIn(), (req, res) => {
     fs.access('./data', fs.F_OK, (err) => {
         if (err) {
@@ -366,6 +376,24 @@ router.post('/post-new-own', connectEnsureLogin.ensureLoggedIn(), (req, res) => 
 router.post('/uploadKey', connectEnsureLogin.ensureLoggedIn(), (req, res) => {
     // 'profile_pic' is the name of our file input field in the HTML form
     let upload = multer({storage: storage, fileFilter: keyFilter}).single('ra_pk.dat');
+
+    upload(req, res, function (err) {
+        if (req.fileValidationError) {
+            return res.send(req.fileValidationError);
+        } else if (!req.file) {
+            return res.send('Please select ".dat" file to upload');
+        } else if (err instanceof multer.MulterError) {
+            return res.send(err);
+        } else if (err) {
+            return res.send(err);
+        }
+        res.redirect('/');
+    });
+});
+
+router.post('/uploadIEKey', connectEnsureLogin.ensureLoggedIn(), (req, res) => {
+    // 'profile_pic' is the name of our file input field in the HTML form
+    let upload = multer({storage: storage, fileFilter: keyFilter}).single('ie_sk.dat');
 
     upload(req, res, function (err) {
         if (req.fileValidationError) {
