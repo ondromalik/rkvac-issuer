@@ -114,6 +114,9 @@
             </div>
       `;
         }
+        else {
+            document.getElementById('reloadMessage').hidden = false;
+        }
     }
 
     function testReader() {
@@ -152,4 +155,5 @@
             });
         });
     }
+
 }

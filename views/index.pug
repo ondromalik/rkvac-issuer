@@ -37,7 +37,7 @@ block content
                 tr
                     th(style="width:30%") Popis
                     th Soubor
-                    th(style="width:15%") Akce
+                    th(style="width:30%") Akce
                 tr(id="downloadIEForm" hidden=true)
                     td Soukromý klíč - vydavatel
                     td ie_sk.dat
@@ -78,6 +78,8 @@ block content
             div.w3-container.w3-margin-bottom
                 label.w3-text-green(id="cardConnected" hidden=true) Karta je funkční
                 label.w3-text-red(id="cardDisconnected" hidden=true) Karta není funkční
+            div(id="reloadMessage" hidden=true)
+                p #[i V případě nezobrazení čtečky je nutné restartovat doplněk "Smart Card Extension", nebo celý prohlížeč.]
 
     div.w3-card-4.w3-margin-top(style="width:50%;margin-left:25%")
         header.w3-light-blue.w3-padding

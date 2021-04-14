@@ -65,6 +65,7 @@
     }
 
     document.getElementById('btnNewEID').addEventListener('click', function () {
+        startLoader();
         let fileName = document.getElementById('attributeName').value;
         let EIDName = document.getElementById('EIDName').value;
         let EIDBirthdate = document.getElementById('EIDBirthdate').value;
@@ -85,6 +86,7 @@
             headers: {'Content-Type': 'application/json'}
         }).then(function (response) {
             response.json().then((data) => {
+                hideLoader();
                 if (data.success) {
                     messageOK();
                     refreshTable();
@@ -109,6 +111,7 @@
     });
 
     document.getElementById('btnNewTicket').addEventListener('click', function () {
+        startLoader();
         let fileName = document.getElementById('attributeName').value;
         let ticketName = document.getElementById('ticketName').value;
         let ticketNumber = document.getElementById('ticketNumber').value;
@@ -126,6 +129,7 @@
             headers: {'Content-Type': 'application/json'}
         }).then(function (response) {
             response.json().then((data) => {
+                hideLoader();
                 if (data.success) {
                     messageOK();
                     refreshTable();
@@ -148,6 +152,7 @@
     });
 
     document.getElementById('btnNewCard').addEventListener('click', function () {
+        startLoader();
         let fileName = document.getElementById('attributeName').value;
         let cardName = document.getElementById('cardName').value;
         let cardID = document.getElementById('cardID').value;
@@ -166,6 +171,7 @@
             headers: {'Content-Type': 'application/json'}
         }).then(function (response) {
             response.json().then((data) => {
+                hideLoader();
                 if (data.success) {
                     messageOK();
                     refreshTable();
@@ -189,6 +195,7 @@
     });
 
     document.getElementById('btnNewOwn').addEventListener('click', function () {
+        startLoader();
         let fileName = document.getElementById('attributeName').value;
         let attributeCount = document.getElementById('attributeCount').value;
         let newOwn = {
@@ -207,6 +214,7 @@
             headers: {'Content-Type': 'application/json'}
         }).then(function (response) {
             response.json().then((data) => {
+                hideLoader();
                 if (data.success) {
                     messageOK();
                     refreshTable();
@@ -354,6 +362,7 @@
     })
 
     document.getElementById('btnAssignAttributes').addEventListener('click', function () {
+        startLoader2();
         let tableRows = document.getElementsByClassName('attribSelector');
         for (let i = 0; i < tableRows.length; i++) {
             if (tableRows[i].checked) {
@@ -366,6 +375,7 @@
                     headers: {'Content-Type': 'application/json'}
                 }).then(function (response) {
                     response.json().then((data) => {
+                        hideLoader2();
                         if (data.success) {
                             document.getElementById('messageTabelOK').hidden = false;
                             document.getElementById('messageTabelError').hidden = true;
@@ -393,6 +403,22 @@
             }
         }
     })
+
+    function startLoader() {
+        document.getElementById('login-loader').hidden = false;
+    }
+
+    function hideLoader() {
+        document.getElementById('login-loader').hidden = true;
+    }
+
+    function startLoader2() {
+        document.getElementById('login-loader-2').hidden = false;
+    }
+
+    function hideLoader2() {
+        document.getElementById('login-loader-2').hidden = true;
+    }
 
     window.onload = refreshTable;
 

@@ -28,6 +28,7 @@ block content
                     p.w3-text-red(hidden=true id="messageTabelError") Požadavek nebyl úspěšný
                     p.w3-text-green(hidden=true id="deleteAttributeOK") Pověření vymazáno
                     p.w3-text-green(hidden=true id="deleteAttributeError") Požadavek nebyl úspěšný
+                    div(class="loader2" id="login-loader-2" hidden=true)
 
                 div.w3-modal(id="attributeInfo")
                     div.w3-modal-content.w3-card-4(style="width:30%")
@@ -118,7 +119,8 @@ block content
                     //    label Název
                     //    input.w3-input.w3-border.w3-round-medium(name="newAttribute" type="text" id="own1")
                     button.w3-btn.w3-round-medium.w3-blue-grey.w3-text-black.w3-border.w3-border-grey.w3-padding-small(id="btnNewOwn") Vydat pověření
-                div.w3-container
+                div.w3-container.w3-left-align
+                    div(class="loader" id="login-loader" hidden=true)
                     p.w3-text-green(hidden=true id="messageOK") Pověření vytvořené a vydané na kartu
                     p.w3-text-red(hidden=true id="messageError") Požadavek nebyl úspěšný
 

@@ -2,6 +2,7 @@
 
     const btnNewUser = document.getElementById('btnNewUser');
     btnNewUser.addEventListener('click', function (e) {
+        startLoader();
         let userFirstName = document.getElementById('firstName').value;
         let userLastName = document.getElementById('lastName').value;
 
@@ -16,6 +17,7 @@
             headers: {'Content-Type': 'application/json'}
         }).then((response) => {
             response.json().then((data) => {
+                hideLoader();
                 if (data.success) {
                     document.getElementById('messageOK').hidden = false;
                     document.getElementById('messageError').hidden = true;
@@ -71,6 +73,14 @@
     document.getElementById('btnRefreshUsers').addEventListener('click', function (e) {
         refreshTable();
     });
+
+    function startLoader() {
+        document.getElementById('login-loader').hidden = false;
+    }
+
+    function hideLoader() {
+        document.getElementById('login-loader').hidden = true;
+    }
 
     window.onload = refreshTable;
 
