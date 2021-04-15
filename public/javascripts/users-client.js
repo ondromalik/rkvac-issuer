@@ -3,6 +3,19 @@
     const btnNewUser = document.getElementById('btnNewUser');
     btnNewUser.addEventListener('click', function (e) {
         startLoader();
+        document.getElementById('cardNotSelected').hidden = true;
+        let tableRows = document.getElementsByClassName('cardSelector');
+        let selectedCard = "";
+        for (let i = 0; i < tableRows.length; i++) {
+            if (tableRows[i].checked) {
+                selectedCard = tableRows[i];
+            }
+        }
+        if (selectedCard === "") {
+            document.getElementById('cardNotSelected').hidden = false;
+            hideLoader();
+            return;
+        }
         let userFirstName = document.getElementById('firstName').value;
         let userLastName = document.getElementById('lastName').value;
 
@@ -31,10 +44,11 @@
                 }
                 throw new Error('Request failed.');
             }).catch(function (error) {
+                hideLoader();
                 console.log(error);
             });
         });
-        connect();
+        connect(selectedCard.value);
         document.getElementById('firstName').value = "";
         document.getElementById('lastName').value = "";
     });
@@ -47,7 +61,7 @@
         });
         const userData = await response.json();
         let date = new Date();
-        let dateFormat = date.getHours() + ":" + (date.getMinutes()<10?'0':'') + date.getMinutes() + ":" + (date.getSeconds()<10?'0':'') + date.getSeconds();
+        let dateFormat = date.getHours() + ":" + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes() + ":" + (date.getSeconds() < 10 ? '0' : '') + date.getSeconds();
         document.getElementById('updatedDate').innerHTML = "Aktualizováno: " + dateFormat;
         if (userData.error === true) {
             console.log("Failed to get data");
@@ -88,6 +102,31 @@
         document.getElementById('login-loader').hidden = true;
     }
 
-    window.onload = refreshTable;
+    async function ListReaders() {
+        var reader_ul = document.getElementById('readerList');
+        if (reader_ul.firstChild) {
+            reader_ul.removeChild(reader_ul.firstChild);
+        }
+        var _readers = await navigator.webcard.readers();
+        if (_readers[0]) {
+            document.getElementById('cardError').hidden = true;
+            _readers.forEach((reader, index) => {
+                var node = document.createElement('li');
+                reader_ul.append(node)
+                node.outerHTML = `
+            <input type="radio" class="w3-radio w3-bar-item cardSelector" name="cardIndex" value="${index}">
+                ${reader.name}
+            </input>
+          `;
+            })
+        }
+    }
+
+    function onLoad() {
+        refreshTable();
+        ListReaders();
+    }
+
+    window.onload = onLoad;
 
 }

@@ -23,6 +23,11 @@ block content
                             tr
                                 td Seznam je prázdny
 
+                div.w3-padding-16.w3-right-align
+                    label #[b Zvolte čtečku:]
+                    div(id="readerList2")
+                    p.w3-text-red(id="cardError2") Čtečka není dostupná
+                    p.w3-text-red(hidden=true id="cardNotSelected2") Není zvolená žádná čtečka
                 div.w3-right-align.w3-padding-16
                     button.w3-btn.w3-round-medium.w3-blue-grey.w3-text-black.w3-border.w3-border-grey.w3-padding-small(id="btnAssignAttributes") Vydat pověření
                     p.w3-text-green(hidden=true id="messageTabelOK") Pověření vydané na kartu
@@ -51,7 +56,11 @@ block content
                     button.w3-bar-item.w3-button.w3-text-black.w3-hover-blue-gray.w3-hover-text-black(onclick="changeAttribForm('card','menuButtonCard')" id="menuButtonCard" class="attribBtn") Karta zamestnanca
                     button.w3-bar-item.w3-button.w3-text-black.w3-hover-blue-gray.w3-hover-text-black(onclick="changeAttribForm('own','menuButtonOwn')" id="menuButtonOwn" class="attribBtn") Vlastné
 
-                div.w3-container
+                div.w3-container.w3-margin-top
+                    label #[b Zvolte čtečku:]
+                    div.w3-margin-bottom(id="readerList")
+                    p.w3-text-red(id="cardError") Čtečka není dostupná
+                    p.w3-text-red(hidden=true id="cardNotSelected") Není zvolená žádná čtečka
                     p
                         label Název pověření
                         input.w3-input.w3-border.w3-round-medium(name="attributeName" type="text" id="attributeName")

@@ -27,7 +27,11 @@ block content
             div.w3-card-4
                 div.w3-container.w3-blue-grey.w3-text-black
                     h3 Nový uživatel
-                div.w3-container(style="padding-bottom: 16px")
+                div.w3-container.w3-margin-top(style="padding-bottom: 16px")
+                    label #[b Zvolte čtečku:]
+                    div.w3-margin-bottom(id="readerList")
+                    p.w3-text-red(id="cardError") Čtečka není dostupná
+                    p.w3-text-red(hidden=true id="cardNotSelected") Není zvolená žádná čtečka
                     p
                         label Jméno
                         input.w3-input.w3-border.w3-round-medium(name="firstName" type="text" id="firstName")

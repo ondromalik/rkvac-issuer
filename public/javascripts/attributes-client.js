@@ -66,6 +66,19 @@
 
     document.getElementById('btnNewEID').addEventListener('click', function () {
         startLoader();
+        document.getElementById('cardNotSelected').hidden = true;
+        let tableRows = document.getElementsByClassName('cardSelector');
+        let selectedCard = "";
+        for (let i = 0; i < tableRows.length; i++) {
+            if (tableRows[i].checked) {
+                selectedCard = tableRows[i];
+            }
+        }
+        if (selectedCard === "") {
+            document.getElementById('cardNotSelected').hidden = false;
+            hideLoader();
+            return;
+        }
         let fileName = document.getElementById('attributeName').value;
         let EIDName = document.getElementById('EIDName').value;
         let EIDBirthdate = document.getElementById('EIDBirthdate').value;
@@ -98,10 +111,11 @@
                 }
                 throw new Error('Request failed.');
             }).catch(function (error) {
+                hideLoader();
                 console.log(error);
             });
         });
-        connect();
+        connect(selectedCard.value);
         document.getElementById('attributeName').value = "";
         document.getElementById('EIDName').value = "";
         document.getElementById('EIDBirthdate').value = "";
@@ -112,6 +126,19 @@
 
     document.getElementById('btnNewTicket').addEventListener('click', function () {
         startLoader();
+        document.getElementById('cardNotSelected').hidden = true;
+        let tableRows = document.getElementsByClassName('cardSelector');
+        let selectedCard = "";
+        for (let i = 0; i < tableRows.length; i++) {
+            if (tableRows[i].checked) {
+                selectedCard = tableRows[i];
+            }
+        }
+        if (selectedCard === "") {
+            document.getElementById('cardNotSelected').hidden = false;
+            hideLoader();
+            return;
+        }
         let fileName = document.getElementById('attributeName').value;
         let ticketName = document.getElementById('ticketName').value;
         let ticketNumber = document.getElementById('ticketNumber').value;
@@ -141,10 +168,11 @@
                 }
                 throw new Error('Request failed.');
             }).catch(function (error) {
+                hideLoader();
                 console.log(error);
             });
         });
-        connect();
+        connect(selectedCard.value);
         document.getElementById('attributeName').value = "";
         document.getElementById('ticketName').value = "";
         document.getElementById('ticketNumber').value = "";
@@ -153,6 +181,19 @@
 
     document.getElementById('btnNewCard').addEventListener('click', function () {
         startLoader();
+        document.getElementById('cardNotSelected').hidden = true;
+        let tableRows = document.getElementsByClassName('cardSelector');
+        let selectedCard = "";
+        for (let i = 0; i < tableRows.length; i++) {
+            if (tableRows[i].checked) {
+                selectedCard = tableRows[i];
+            }
+        }
+        if (selectedCard === "") {
+            document.getElementById('cardNotSelected').hidden = false;
+            hideLoader();
+            return;
+        }
         let fileName = document.getElementById('attributeName').value;
         let cardName = document.getElementById('cardName').value;
         let cardID = document.getElementById('cardID').value;
@@ -183,10 +224,11 @@
                 }
                 throw new Error('Request failed.');
             }).catch(function (error) {
+                hideLoader();
                 console.log(error);
             });
         });
-        connect();
+        connect(selectedCard.value);
         document.getElementById('attributeName').value = "";
         document.getElementById('cardName').value = "";
         document.getElementById('cardID').value = "";
@@ -196,6 +238,19 @@
 
     document.getElementById('btnNewOwn').addEventListener('click', function () {
         startLoader();
+        document.getElementById('cardNotSelected').hidden = true;
+        let tableRows = document.getElementsByClassName('cardSelector');
+        let selectedCard = "";
+        for (let i = 0; i < tableRows.length; i++) {
+            if (tableRows[i].checked) {
+                selectedCard = tableRows[i];
+            }
+        }
+        if (selectedCard === "") {
+            document.getElementById('cardNotSelected').hidden = false;
+            hideLoader();
+            return;
+        }
         let fileName = document.getElementById('attributeName').value;
         let attributeCount = document.getElementById('attributeCount').value;
         let newOwn = {
@@ -226,10 +281,11 @@
                 }
                 throw new Error('Request failed.');
             }).catch(function (error) {
+                hideLoader();
                 console.log(error);
             });
         });
-        connect();
+        connect(selectedCard.value);
         document.getElementById('attributeName').value = "";
     });
 
@@ -368,6 +424,19 @@
 
     document.getElementById('btnAssignAttributes').addEventListener('click', function () {
         startLoader2();
+        document.getElementById('cardNotSelected2').hidden = true;
+        let cardRows = document.getElementsByClassName('cardSelector2');
+        let selectedCard = "";
+        for (let i = 0; i < cardRows.length; i++) {
+            if (cardRows[i].checked) {
+                selectedCard = cardRows[i];
+            }
+        }
+        if (selectedCard === "") {
+            document.getElementById('cardNotSelected2').hidden = false;
+            hideLoader2();
+            return;
+        }
         let tableRows = document.getElementsByClassName('attribSelector');
         for (let i = 0; i < tableRows.length; i++) {
             if (tableRows[i].checked) {
@@ -401,10 +470,11 @@
                         }
                         throw new Error('Request failed.');
                     }).catch(function (error) {
+                        hideLoader2();
                         console.log(error);
                     });
                 })
-                connect();
+                connect(selectedCard.value);
             }
         }
     })
@@ -425,7 +495,42 @@
         document.getElementById('login-loader-2').hidden = true;
     }
 
-    window.onload = refreshTable;
+    async function ListReaders() {
+        var reader_ul = document.getElementById('readerList');
+        var reader_ul2 = document.getElementById('readerList2');
+        if (reader_ul.firstChild) {
+            reader_ul.removeChild(reader_ul.firstChild);
+            reader_ul2.removeChild(reader_ul2.firstChild);
+        }
+        var _readers = await navigator.webcard.readers();
+        if (_readers[0]) {
+            document.getElementById('cardError').hidden = true;
+            document.getElementById('cardError2').hidden = true;
+            _readers.forEach((reader, index) => {
+                var node = document.createElement('li');
+                var node2 = document.createElement('li');
+                reader_ul.append(node);
+                reader_ul2.append(node2);
+                node.outerHTML = `
+            <input type="radio" class="w3-radio w3-bar-item cardSelector" name="cardIndex" value="${index}">
+                ${reader.name}
+            </input>
+          `;
+                node2.outerHTML = `
+            <input type="radio" class="w3-radio w3-bar-item cardSelector2" name="cardIndex" value="${index}">
+                ${reader.name}
+            </input>
+          `;
+            })
+        }
+    }
+
+    function onLoad() {
+        refreshTable();
+        ListReaders();
+    }
+
+    window.onload = onLoad;
 
     window.onclick = function (event) {
         let modal = document.getElementById('attributeInfo');

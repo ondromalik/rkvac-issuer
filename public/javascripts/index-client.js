@@ -84,12 +84,12 @@
         }
     });
 
-    async function contactCard(hexdata) {
+    async function contactCard(index, hexdata) {
         var _readers = await navigator.webcard.readers();
-        let atr = await _readers[0].connect(true);
+        let atr = await _readers[index].connect(true);
         console.log("APDU request: " + hexdata);
         let res = await _readers[0].transcieve(hexdata);
-        _readers[0].disconnect();
+        _readers[index].disconnect();
         return res;
     }
 
@@ -100,33 +100,38 @@
         }
         var _readers = await navigator.webcard.readers();
         if (_readers[0]) {
+            _readers.forEach((reader, index) => {
+                var node = document.createElement('li');
+                reader_ul.append(node)
+                node.outerHTML = `
+          <div class="" tabindex="${index}" onclick="testReader(${index})">
+                  <span class="w3-center">
+                    <p style="font-weight: bold">${reader.name}</p>
+                    <p style="font-style: italic">${reader.atr === "" ? "Karta nevložená" : "Karta vložená"}</p>
+                  </span>
+                </div>
+          `;
+
+            })
             document.getElementById('cardStatus').hidden = true;
-            document.getElementById('testCard').hidden = false;
-            var reader = _readers[0];
-            var node = document.createElement('li');
-            reader_ul.append(node)
-            node.outerHTML = `
-      <div class="" tabindex="${0}">
-              <span class="w3-center">
-                <p style="font-weight: bold">${reader.name}</p>
-                <p style="font-style: italic">${reader.atr === "" ? "Karta nevložená" : "Karta vložená"}</p>
-              </span>
-            </div>
-      `;
+            // document.getElementById('testCard').hidden = false;
         }
         else {
             document.getElementById('reloadMessage').hidden = false;
         }
     }
 
-    function testReader() {
-        contactCard('00A40400077675743231303100').then(res => {
+    function testReader(index) {
+        startLoader();
+        contactCard(index, '00A40400077675743231303100').then(res => {
+            hideLoader();
             if (res === '9000') {
                 document.getElementById("cardConnected").hidden = false;
                 document.getElementById("cardDisconnected").hidden = true;
             }
             console.log("APDU response: " + res);
         }).catch(function (error) {
+            hideLoader();
             document.getElementById("cardDisconnected").hidden = false;
             document.getElementById("cardConnected").hidden = true;
             console.log(error);
@@ -156,4 +161,11 @@
         });
     }
 
+    function startLoader() {
+        document.getElementById('login-loader').hidden = false;
+    }
+
+    function hideLoader() {
+        document.getElementById('login-loader').hidden = true;
+    }
 }

@@ -74,8 +74,8 @@ block content
                 label.w3-text-red(id="cardStatus") Čtečka nedostupná
                 div(id="readerList")
             div.w3-container.w3-margin-bottom
-                button.w3-button.w3-border.w3-round-medium.w3-padding-small(id="testCard" onclick="testReader()" hidden=true) Test
-            div.w3-container.w3-margin-bottom
+                p #[i Kliknutím na čtečku ji otestujete]
+                div(class="loader" id="login-loader" hidden=true)
                 label.w3-text-green(id="cardConnected" hidden=true) Karta je funkční
                 label.w3-text-red(id="cardDisconnected" hidden=true) Karta není funkční
             div(id="reloadMessage" hidden=true)
