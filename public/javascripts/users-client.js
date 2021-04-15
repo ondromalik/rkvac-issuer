@@ -46,6 +46,9 @@
             console.log(error);
         });
         const userData = await response.json();
+        let date = new Date();
+        let dateFormat = date.getHours() + ":" + (date.getMinutes()<10?'0':'') + date.getMinutes() + ":" + (date.getSeconds()<10?'0':'') + date.getSeconds();
+        document.getElementById('updatedDate').innerHTML = "Aktualizováno: " + dateFormat;
         if (userData.error === true) {
             console.log("Failed to get data");
             return;
@@ -71,7 +74,10 @@
     }
 
     document.getElementById('btnRefreshUsers').addEventListener('click', function (e) {
-        refreshTable();
+        document.getElementById('btnRefreshUsers').className += " table-refresh__button--refreshing";
+        refreshTable().then(() => {
+            document.getElementById('btnRefreshUsers').className = document.getElementById('btnRefreshUsers').className.replace(" table-refresh__button--refreshing", "");
+        });
     });
 
     function startLoader() {

@@ -241,8 +241,10 @@
             console.log(error);
         });
         const attribFiles = await response.json();
+        let date = new Date();
+        let dateFormat = date.getHours() + ":" + (date.getMinutes()<10?'0':'') + date.getMinutes() + ":" + (date.getSeconds()<10?'0':'') + date.getSeconds();
+        document.getElementById('updatedDate').innerHTML = "Aktualizováno: " + dateFormat;
         if (attribFiles.error === true) {
-            console.log("Failed to get data");
             return;
         }
 
@@ -358,7 +360,10 @@
     }
 
     document.getElementById('btnRefreshAttributes').addEventListener('click', function (e) {
-        refreshTable();
+        document.getElementById('btnRefreshAttributes').className += " table-refresh__button--refreshing";
+        refreshTable().then(() => {
+            document.getElementById('btnRefreshAttributes').className = document.getElementById('btnRefreshAttributes').className.replace(" table-refresh__button--refreshing", "");
+        });
     })
 
     document.getElementById('btnAssignAttributes').addEventListener('click', function () {
