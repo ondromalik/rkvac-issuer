@@ -477,6 +477,7 @@
                 connect(selectedCard.value);
             }
         }
+        hideLoader2();
     })
 
     function startLoader() {
@@ -498,7 +499,7 @@
     async function ListReaders() {
         var reader_ul = document.getElementById('readerList');
         var reader_ul2 = document.getElementById('readerList2');
-        if (reader_ul.firstChild) {
+        while (reader_ul.firstChild) {
             reader_ul.removeChild(reader_ul.firstChild);
             reader_ul2.removeChild(reader_ul2.firstChild);
         }

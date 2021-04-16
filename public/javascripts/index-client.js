@@ -88,14 +88,14 @@
         var _readers = await navigator.webcard.readers();
         let atr = await _readers[index].connect(true);
         console.log("APDU request: " + hexdata);
-        let res = await _readers[0].transcieve(hexdata);
+        let res = await _readers[index].transcieve(hexdata);
         _readers[index].disconnect();
         return res;
     }
 
     async function ListReaders() {
         var reader_ul = document.getElementById('readerList');
-        if (reader_ul.firstChild) {
+        while (reader_ul.firstChild) {
             reader_ul.removeChild(reader_ul.firstChild);
         }
         var _readers = await navigator.webcard.readers();
@@ -106,15 +106,14 @@
                 node.outerHTML = `
           <div class="" tabindex="${index}" onclick="testReader(${index})">
                   <span class="w3-center">
-                    <p style="font-weight: bold">${reader.name}</p>
-                    <p style="font-style: italic">${reader.atr === "" ? "Karta nevložená" : "Karta vložená"}</p>
+                    <label style="font-weight: bold">${reader.name}</label>
+                    <label style="font-style: italic">(${reader.atr === "" ? "Karta nevložená" : "Karta vložená"})</label>
                   </span>
                 </div>
           `;
 
             })
             document.getElementById('cardStatus').hidden = true;
-            // document.getElementById('testCard').hidden = false;
         }
         else {
             document.getElementById('reloadMessage').hidden = false;

@@ -105,13 +105,29 @@ const keyFilter = function (req, file, cb) {
     cb(null, true);
 };
 
+function logData(stdout, err, stderr) {
+    let date = new Date();
+    let dateFormat = date.getFullYear() + '/' + (date.getMonth() < 10 ? '0' : '') + date.getMonth() + '/' + (date.getDate() < 10 ? '0' : '') + date.getDate() + ' ' +
+        date.getHours() + ":" + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes() + ":" + (date.getSeconds() < 10 ? '0' : '') + date.getSeconds() + ' ';
+    if (err) {
+        stdout += '\n' + 'error: ' + err;
+    }
+    if (stderr) {
+        stdout += '\n' + 'stderr: ' + stderr;
+    }
+    fs.appendFile('./main.log', dateFormat + stdout + '\n', 'utf-8', (err) => {
+        if (err) {
+            console.log(err);
+        }
+    });
+}
+
 /* GET issuer page. */
 router.get('/', connectEnsureLogin.ensureLoggedIn(), function (req, res, next) {
     res.render('index');
 });
 
 router.get('/login', function (req, res, next) {
-    // console.log(req.flash('error'));
     let message = JSON.stringify(req.flash('error'));
     if (message !== '[]') {
         let newMessage = message.replace('[', '').replace(']', '').replace('"', '').replace('"', '');
@@ -127,9 +143,7 @@ router.get('/logout', function (req, res) {
 })
 
 router.get('/users', connectEnsureLogin.ensureLoggedIn(), function (req, res, next) {
-    // loadUsers();
     let message = JSON.stringify(req.flash('error'));
-    // console.log(message);
     res.render('issuer-users');
 });
 
@@ -179,6 +193,7 @@ router.get('/deleteKey', connectEnsureLogin.ensureLoggedIn(), (req, res) => {
             console.error(err)
             return
         }
+        logData('./data/Issuer/ra_pk.dat downloaded', err)
         res.json({success: true});
     })
 });
@@ -189,6 +204,7 @@ router.get('/deleteIEKey', connectEnsureLogin.ensureLoggedIn(), (req, res) => {
             console.error(err)
             return
         }
+        logData('./data/Issuer/ie_sk.dat deleted', err);
         res.json({success: true});
     })
 });
@@ -239,15 +255,18 @@ router.post('/post-new-user', connectEnsureLogin.ensureLoggedIn(), (req, res) =>
         if (error) {
             console.log(`stdout: ${stdout}`);
             console.log(`error: ${error.message}`);
+            logData(stdout, error, stderr);
             res.json({success: false});
             return;
         }
         if (stderr) {
             console.log(`stdout: ${stdout}`);
             console.log(`stderr: ${stderr}`);
+            logData(stdout, error, stderr);
             res.json({success: false});
             return;
         }
+        logData(stdout, error, stderr);
         res.json({success: true});
         console.log(`stdout: ${stdout}`);
     });
@@ -260,15 +279,18 @@ router.post('/post-new-attribute', connectEnsureLogin.ensureLoggedIn(), (req, re
         if (error) {
             console.log(`stdout: ${stdout}`);
             console.log(`error: ${error.message}`);
+            logData(stdout, error, stderr);
             res.json({success: false});
             return;
         }
         if (stderr) {
             console.log(`stdout: ${stdout}`);
             console.log(`stderr: ${stderr}`);
+            logData(stdout, error, stderr);
             res.json({success: false});
             return;
         }
+        logData(stdout, error, stderr);
         res.json({success: true});
         console.log(`stdout: ${stdout}`);
     });
@@ -285,15 +307,18 @@ router.post('/post-new-EID', connectEnsureLogin.ensureLoggedIn(), (req, res) => 
         if (error) {
             console.log(`stdout: ${stdout}`);
             console.log(`error: ${error.message}`);
+            logData(stdout, error, stderr);
             res.json({success: false});
             return;
         }
         if (stderr) {
             console.log(`stdout: ${stdout}`);
             console.log(`stderr: ${stderr}`);
+            logData(stdout, error, stderr);
             res.json({success: false});
             return;
         }
+        logData(stdout, error, stderr);
         res.json({success: true});
         console.log(`stdout: ${stdout}`);
     });
@@ -308,15 +333,18 @@ router.post('/post-new-ticket', connectEnsureLogin.ensureLoggedIn(), (req, res) 
         if (error) {
             console.log(`stdout: ${stdout}`);
             console.log(`error: ${error.message}`);
+            logData(stdout, error, stderr);
             res.json({success: false});
             return;
         }
         if (stderr) {
             console.log(`stdout: ${stdout}`);
             console.log(`stderr: ${stderr}`);
+            logData(stdout, error, stderr);
             res.json({success: false});
             return;
         }
+        logData(stdout, error, stderr);
         res.json({success: true});
         console.log(`stdout: ${stdout}`);
     });
@@ -329,17 +357,20 @@ router.post('/post-new-card', connectEnsureLogin.ensureLoggedIn(), (req, res) =>
     console.log(command);
     exec(command, (error, stdout, stderr) => {
         if (error) {
-            res.json({success: false});
             console.log(`stdout: ${stdout}`);
             console.log(`error: ${error.message}`);
+            logData(stdout, error, stderr);
+            res.json({success: false});
             return;
         }
         if (stderr) {
-            res.json({success: false});
             console.log(`stdout: ${stdout}`);
             console.log(`stderr: ${stderr}`);
+            logData(stdout, error, stderr);
+            res.json({success: false});
             return;
         }
+        logData(stdout, error, stderr);
         res.json({success: true});
         console.log(`stdout: ${stdout}`);
     });
@@ -360,14 +391,17 @@ router.post('/post-new-own', connectEnsureLogin.ensureLoggedIn(), (req, res) => 
             res.json({success: false});
             console.log(`stdout: ${stdout}`);
             console.log(`error: ${error.message}`);
+            logData(stdout, error, stderr);
             return;
         }
         if (stderr) {
             res.json({success: false});
             console.log(`stdout: ${stdout}`);
             console.log(`stderr: ${stderr}`);
+            logData(stdout, error, stderr);
             return;
         }
+        logData(stdout, error, stderr);
         res.json({success: true});
         console.log(`stdout: ${stdout}`);
     });
@@ -387,6 +421,7 @@ router.post('/uploadKey', connectEnsureLogin.ensureLoggedIn(), (req, res) => {
         } else if (err) {
             return res.send(err);
         }
+        logData("ra_pk.dat uploaded", err);
         res.redirect('/');
     });
 });
@@ -405,6 +440,7 @@ router.post('/uploadIEKey', connectEnsureLogin.ensureLoggedIn(), (req, res) => {
         } else if (err) {
             return res.send(err);
         }
+        logData("ie_sk.dat uploaded");
         res.redirect('/');
     });
 });
@@ -412,10 +448,11 @@ router.post('/uploadIEKey', connectEnsureLogin.ensureLoggedIn(), (req, res) => {
 router.post('/delete-attribute', connectEnsureLogin.ensureLoggedIn(), (req, res) => {
     fs.unlink('./data/Issuer/' + req.body.attributeName, (err) => {
         if (err) {
-            console.error(err)
+            console.log(err);
             res.json({success: false});
             return
         }
+        logData("./data/Issuer/" + req.body.attributeName + " deleted", err);
         res.json({success: true});
     });
 });
@@ -449,6 +486,7 @@ router.post('/deleteData', connectEnsureLogin.ensureLoggedIn(), (req, res) => {
             res.json({success: false});
             return;
         }
+        logData("RKVAC reseted");
         res.json({success: true});
     });
 });
