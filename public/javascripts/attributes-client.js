@@ -298,7 +298,7 @@
         });
         const attribFiles = await response.json();
         let date = new Date();
-        let dateFormat = date.getHours() + ":" + (date.getMinutes()<10?'0':'') + date.getMinutes() + ":" + (date.getSeconds()<10?'0':'') + date.getSeconds();
+        let dateFormat = date.getHours() + ":" + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes() + ":" + (date.getSeconds() < 10 ? '0' : '') + date.getSeconds();
         document.getElementById('updatedDate').innerHTML = "Aktualizováno: " + dateFormat;
         if (attribFiles.error === true) {
             return;
@@ -396,7 +396,7 @@
                     row.appendChild(th2);
 
                     for (let i = 0; i < data.names.length; i++) {
-                        let row = list.insertRow(i+1);
+                        let row = list.insertRow(i + 1);
                         let cell1 = row.insertCell(0);
                         let cell2 = row.insertCell(1);
                         cell1.innerHTML = data.names[i] + ":";
@@ -425,6 +425,7 @@
     document.getElementById('btnAssignAttributes').addEventListener('click', function () {
         startLoader2();
         document.getElementById('cardNotSelected2').hidden = true;
+        document.getElementById('fileNotSelected').hidden = true;
         let cardRows = document.getElementsByClassName('cardSelector2');
         let selectedCard = "";
         for (let i = 0; i < cardRows.length; i++) {
@@ -438,8 +439,10 @@
             return;
         }
         let tableRows = document.getElementsByClassName('attribSelector');
+        let fileIsSelected = false;
         for (let i = 0; i < tableRows.length; i++) {
             if (tableRows[i].checked) {
+                fileIsSelected = true;
                 let selectedFile = {
                     fileName: tableRows[i].value
                 };
@@ -477,7 +480,10 @@
                 connect(selectedCard.value);
             }
         }
-        hideLoader2();
+        if (!fileIsSelected) {
+            document.getElementById('fileNotSelected').hidden = false;
+            hideLoader2();
+        }
     })
 
     function startLoader() {
