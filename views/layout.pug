@@ -14,6 +14,9 @@ html
                     a(href="/attributes" class="w3-bar-item w3-button") Pověření
                     a(href="/logout" class="w3-bar-item w3-button w3-right")
                         i(class="fas fa-sign-out-alt fa-lg")
+                    form(action="/downloadLog" method="GET")
+                        button.w3-button.w3-bar-item.w3-right(type='submit')
+                            i(class="fas fa-download fa-lg")
 
         br
         block content

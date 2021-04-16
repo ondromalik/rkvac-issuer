@@ -186,6 +186,10 @@ router.get('/downloadKey', connectEnsureLogin.ensureLoggedIn(), (req, res) => {
     res.download(file);
 });
 
+router.get('/downloadLog', connectEnsureLogin.ensureLoggedIn(), (req, res) => {
+    const file = './main.log';
+    res.download(file);
+});
 
 router.get('/deleteKey', connectEnsureLogin.ensureLoggedIn(), (req, res) => {
     fs.unlink('./data/Issuer/ra_pk.dat', (err) => {
