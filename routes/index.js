@@ -251,164 +251,212 @@ router.post('/login',
     })
 );
 
+let rkvacUsed = false;
+
 router.use(bodyParser.json());
 router.post('/post-new-user', connectEnsureLogin.ensureLoggedIn(), (req, res) => {
-    console.log('Got body:', req.body.name, req.body.surname);
-    var command = "./rkvac-protocol-multos-1.0.0 -p -n '" + req.body.name + "' -s '" + req.body.surname + "'";
-    exec(command, (error, stdout, stderr) => {
-        if (error) {
-            console.log(`stdout: ${stdout}`);
-            console.log(`error: ${error.message}`);
+    if (!rkvacUsed) {
+        rkvacUsed = true;
+        console.log('Got body:', req.body.name, req.body.surname);
+        var command = "./rkvac-protocol-multos-1.0.0 -p -n '" + req.body.name + "' -s '" + req.body.surname + "'";
+        exec(command, (error, stdout, stderr) => {
+            if (error) {
+                console.log(`stdout: ${stdout}`);
+                console.log(`error: ${error.message}`);
+                logData(stdout, error, stderr);
+                res.json({success: false});
+                rkvacUsed = false;
+                return;
+            }
+            if (stderr) {
+                console.log(`stdout: ${stdout}`);
+                console.log(`stderr: ${stderr}`);
+                logData(stdout, error, stderr);
+                res.json({success: false});
+                rkvacUsed = false;
+                return;
+            }
             logData(stdout, error, stderr);
-            res.json({success: false});
-            return;
-        }
-        if (stderr) {
+            res.json({success: true});
+            rkvacUsed = false;
             console.log(`stdout: ${stdout}`);
-            console.log(`stderr: ${stderr}`);
-            logData(stdout, error, stderr);
-            res.json({success: false});
-            return;
-        }
-        logData(stdout, error, stderr);
-        res.json({success: true});
-        console.log(`stdout: ${stdout}`);
-    });
+        });
+    } else {
+        res.json({rkvacUsed: true});
+    }
 });
 
 router.post('/post-new-attribute', connectEnsureLogin.ensureLoggedIn(), (req, res) => {
-    console.log('Got body:', req.body);
-    var command = "printf '\\ny' | ./rkvac-protocol-multos-1.0.0 -i -a " + req.body.fileName;
-    exec(command, (error, stdout, stderr) => {
-        if (error) {
-            console.log(`stdout: ${stdout}`);
-            console.log(`error: ${error.message}`);
+    if (!rkvacUsed) {
+        rkvacUsed = true;
+        console.log('Got body:', req.body);
+        var command = "printf '\\ny' | ./rkvac-protocol-multos-1.0.0 -i -a " + req.body.fileName;
+        exec(command, (error, stdout, stderr) => {
+            if (error) {
+                console.log(`stdout: ${stdout}`);
+                console.log(`error: ${error.message}`);
+                logData(stdout, error, stderr);
+                res.json({success: false});
+                rkvacUsed = false;
+                return;
+            }
+            if (stderr) {
+                console.log(`stdout: ${stdout}`);
+                console.log(`stderr: ${stderr}`);
+                logData(stdout, error, stderr);
+                res.json({success: false});
+                rkvacUsed = false;
+                return;
+            }
             logData(stdout, error, stderr);
-            res.json({success: false});
-            return;
-        }
-        if (stderr) {
+            res.json({success: true});
+            rkvacUsed = false;
             console.log(`stdout: ${stdout}`);
-            console.log(`stderr: ${stderr}`);
-            logData(stdout, error, stderr);
-            res.json({success: false});
-            return;
-        }
-        logData(stdout, error, stderr);
-        res.json({success: true});
-        console.log(`stdout: ${stdout}`);
-    });
-
-
+        });
+    } else {
+        res.json({rkvacUsed: true});
+    }
 });
 
 router.post('/post-new-EID', connectEnsureLogin.ensureLoggedIn(), (req, res) => {
-    console.log('Got body:', req.body);
-    var command = "printf '1\\n" + req.body.EIDName + "\\n" + req.body.EIDBirthdate + "\\n" + req.body.EIDNationality + "\\n" + req.body.EIDAddress + "\\n" + req.body.EIDSex + "\\ny' | ./rkvac-protocol-multos-1.0.0 -i -a " + req.body.fileName;
-    //var command = "touch /home/ondro/rkvac-temp/file1.txt";
-    console.log(command);
-    exec(command, (error, stdout, stderr) => {
-        if (error) {
-            console.log(`stdout: ${stdout}`);
-            console.log(`error: ${error.message}`);
+    if (!rkvacUsed) {
+        rkvacUsed = true;
+        console.log('Got body:', req.body);
+        var command = "printf '1\\n" + req.body.EIDName + "\\n" + req.body.EIDBirthdate + "\\n" + req.body.EIDNationality + "\\n" + req.body.EIDAddress + "\\n" + req.body.EIDSex + "\\ny' | ./rkvac-protocol-multos-1.0.0 -i -a " + req.body.fileName;
+        //var command = "touch /home/ondro/rkvac-temp/file1.txt";
+        console.log(command);
+        exec(command, (error, stdout, stderr) => {
+            if (error) {
+                console.log(`stdout: ${stdout}`);
+                console.log(`error: ${error.message}`);
+                logData(stdout, error, stderr);
+                res.json({success: false});
+                rkvacUsed = false;
+                return;
+            }
+            if (stderr) {
+                console.log(`stdout: ${stdout}`);
+                console.log(`stderr: ${stderr}`);
+                logData(stdout, error, stderr);
+                res.json({success: false});
+                rkvacUsed = false;
+                return;
+            }
             logData(stdout, error, stderr);
-            res.json({success: false});
-            return;
-        }
-        if (stderr) {
+            res.json({success: true});
+            rkvacUsed = false;
             console.log(`stdout: ${stdout}`);
-            console.log(`stderr: ${stderr}`);
-            logData(stdout, error, stderr);
-            res.json({success: false});
-            return;
-        }
-        logData(stdout, error, stderr);
-        res.json({success: true});
-        console.log(`stdout: ${stdout}`);
-    });
+        });
+    } else {
+        res.json({rkvacUsed: true});
+    }
 });
 
 router.post('/post-new-ticket', connectEnsureLogin.ensureLoggedIn(), (req, res) => {
-    console.log('Got body:', req.body);
-    var command = "printf '2\\n" + req.body.ticketName + "\\n" + req.body.ticketNumber + "\\n" + req.body.ticketType + "\\ny' | ./rkvac-protocol-multos-1.0.0 -i -a " + req.body.fileName;
-    //var command = "touch /home/ondro/rkvac-temp/file1.txt";
-    console.log(command);
-    exec(command, (error, stdout, stderr) => {
-        if (error) {
-            console.log(`stdout: ${stdout}`);
-            console.log(`error: ${error.message}`);
+    if (!rkvacUsed) {
+        rkvacUsed = true;
+        console.log('Got body:', req.body);
+        var command = "printf '2\\n" + req.body.ticketName + "\\n" + req.body.ticketNumber + "\\n" + req.body.ticketType + "\\ny' | ./rkvac-protocol-multos-1.0.0 -i -a " + req.body.fileName;
+        //var command = "touch /home/ondro/rkvac-temp/file1.txt";
+        console.log(command);
+        exec(command, (error, stdout, stderr) => {
+            if (error) {
+                console.log(`stdout: ${stdout}`);
+                console.log(`error: ${error.message}`);
+                logData(stdout, error, stderr);
+                res.json({success: false});
+                rkvacUsed = false;
+                return;
+            }
+            if (stderr) {
+                console.log(`stdout: ${stdout}`);
+                console.log(`stderr: ${stderr}`);
+                logData(stdout, error, stderr);
+                res.json({success: false});
+                rkvacUsed = false;
+                return;
+            }
             logData(stdout, error, stderr);
-            res.json({success: false});
-            return;
-        }
-        if (stderr) {
+            res.json({success: true});
+            rkvacUsed = false;
             console.log(`stdout: ${stdout}`);
-            console.log(`stderr: ${stderr}`);
-            logData(stdout, error, stderr);
-            res.json({success: false});
-            return;
-        }
-        logData(stdout, error, stderr);
-        res.json({success: true});
-        console.log(`stdout: ${stdout}`);
-    });
+        });
+    } else {
+        res.json({rkvacUsed: true});
+    }
 });
 
 router.post('/post-new-card', connectEnsureLogin.ensureLoggedIn(), (req, res) => {
-    console.log('Got body:', req.body);
-    var command = "printf '3\\n" + req.body.cardName + "\\n" + req.body.cardID + "\\n" + req.body.cardEmployer + "\\n" + req.body.cardPosition + "\\ny' | ./rkvac-protocol-multos-1.0.0 -i -a " + req.body.fileName;
-    //var command = "touch /home/ondro/rkvac-temp/file1.txt";
-    console.log(command);
-    exec(command, (error, stdout, stderr) => {
-        if (error) {
-            console.log(`stdout: ${stdout}`);
-            console.log(`error: ${error.message}`);
+    if (!rkvacUsed) {
+        rkvacUsed = true;
+        console.log('Got body:', req.body);
+        var command = "printf '3\\n" + req.body.cardName + "\\n" + req.body.cardID + "\\n" + req.body.cardEmployer + "\\n" + req.body.cardPosition + "\\ny' | ./rkvac-protocol-multos-1.0.0 -i -a " + req.body.fileName;
+        //var command = "touch /home/ondro/rkvac-temp/file1.txt";
+        console.log(command);
+        exec(command, (error, stdout, stderr) => {
+            if (error) {
+                console.log(`stdout: ${stdout}`);
+                console.log(`error: ${error.message}`);
+                logData(stdout, error, stderr);
+                res.json({success: false});
+                rkvacUsed = false;
+                return;
+            }
+            if (stderr) {
+                console.log(`stdout: ${stdout}`);
+                console.log(`stderr: ${stderr}`);
+                logData(stdout, error, stderr);
+                res.json({success: false});
+                rkvacUsed = false;
+                return;
+            }
             logData(stdout, error, stderr);
-            res.json({success: false});
-            return;
-        }
-        if (stderr) {
+            res.json({success: true});
+            rkvacUsed = false;
             console.log(`stdout: ${stdout}`);
-            console.log(`stderr: ${stderr}`);
-            logData(stdout, error, stderr);
-            res.json({success: false});
-            return;
-        }
-        logData(stdout, error, stderr);
-        res.json({success: true});
-        console.log(`stdout: ${stdout}`);
-    });
+        });
+    } else {
+        res.json({rkvacUsed: true});
+    }
 });
 
 router.post('/post-new-own', connectEnsureLogin.ensureLoggedIn(), (req, res) => {
-    console.log('Got body:', req.body);
-    var command = "printf '4\\n" + req.body.attributeCount + "\\n";
-    for (let i = 0; i < req.body.attributeCount; i++) {
-        let attribName = 'own' + i;
-        command += req.body[attribName];
-        command += "\\n";
+    if (!rkvacUsed) {
+        rkvacUsed = true;
+        console.log('Got body:', req.body);
+        var command = "printf '4\\n" + req.body.attributeCount + "\\n";
+        for (let i = 0; i < req.body.attributeCount; i++) {
+            let attribName = 'own' + i;
+            command += req.body[attribName];
+            command += "\\n";
+        }
+        command += "y' | ./rkvac-protocol-multos-1.0.0 -i -a " + req.body.fileName;
+        console.log(command);
+        exec(command, (error, stdout, stderr) => {
+            if (error) {
+                res.json({success: false});
+                rkvacUsed = false;
+                console.log(`stdout: ${stdout}`);
+                console.log(`error: ${error.message}`);
+                logData(stdout, error, stderr);
+                return;
+            }
+            if (stderr) {
+                res.json({success: false});
+                rkvacUsed = false;
+                console.log(`stdout: ${stdout}`);
+                console.log(`stderr: ${stderr}`);
+                logData(stdout, error, stderr);
+                return;
+            }
+            logData(stdout, error, stderr);
+            res.json({success: true});
+            rkvacUsed = false;
+            console.log(`stdout: ${stdout}`);
+        });
+    } else {
+        res.json({rkvacUsed: true});
     }
-    command += "y' | ./rkvac-protocol-multos-1.0.0 -i -a " + req.body.fileName;
-    console.log(command);
-    exec(command, (error, stdout, stderr) => {
-        if (error) {
-            res.json({success: false});
-            console.log(`stdout: ${stdout}`);
-            console.log(`error: ${error.message}`);
-            logData(stdout, error, stderr);
-            return;
-        }
-        if (stderr) {
-            res.json({success: false});
-            console.log(`stdout: ${stdout}`);
-            console.log(`stderr: ${stderr}`);
-            logData(stdout, error, stderr);
-            return;
-        }
-        logData(stdout, error, stderr);
-        res.json({success: true});
-        console.log(`stdout: ${stdout}`);
-    });
 });
 
 router.post('/uploadKey', connectEnsureLogin.ensureLoggedIn(), (req, res) => {

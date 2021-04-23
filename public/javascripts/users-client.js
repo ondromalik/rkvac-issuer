@@ -31,6 +31,11 @@
         }).then((response) => {
             response.json().then((data) => {
                 hideLoader();
+                document.getElementById('rkvacUsed').hidden = true;
+                if (data.rkvacUsed) {
+                    document.getElementById('rkvacUsed').hidden = false;
+                    return;
+                }
                 if (data.success) {
                     document.getElementById('messageOK').hidden = false;
                     document.getElementById('messageError').hidden = true;
