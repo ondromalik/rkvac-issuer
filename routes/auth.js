@@ -1,19 +1,14 @@
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 const crypto = require('crypto');
-
-// var user = { // This a hard-coded user
-//     _id: 1,
-//     username: 'john',
-//     password: 'password'
-// };
+const fs = require('fs');
 
 var userDB = {
     user: [
         {
             _id: 1,
             username: 'admin',
-            password: 'cW33/8VSFfz5/expPXQikyaDdNVf9dkmXmCgsJ5tn4o='
+            password: ''
         },
     ]
 };
@@ -28,6 +23,11 @@ passport.use('login', new LocalStrategy(
     function (username, password, done) {
         let hashedPassword = getHashedPassword(password);
         let userFound = false;
+        try {
+            userDB.user[0].password = fs.readFileSync('./passwd').toString();
+        } catch (e) {
+            console.log(e);
+        }
         for (user of userDB.user) {
             if (user.username === username) {
                 if (user.password === hashedPassword) {

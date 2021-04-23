@@ -11,6 +11,7 @@ const multer = require("multer");
 var session = require('express-session');
 var flash = require('connect-flash');
 var auth = require('./auth.js');
+const crypto = require('crypto');
 const connectEnsureLogin = require('connect-ensure-login');
 
 router.use(session({
@@ -140,7 +141,11 @@ router.get('/login', function (req, res, next) {
 router.get('/logout', function (req, res) {
     req.logout();
     res.redirect('/');
-})
+});
+
+router.get('/change-password', connectEnsureLogin.ensureLoggedIn(), function (req, res, next) {
+    res.render('password-form');
+});
 
 router.get('/users', connectEnsureLogin.ensureLoggedIn(), function (req, res, next) {
     let message = JSON.stringify(req.flash('error'));
@@ -560,6 +565,38 @@ router.post('/deleteData', connectEnsureLogin.ensureLoggedIn(), (req, res) => {
         }
         logData("RKVAC reseted");
         res.json({success: true});
+    });
+});
+
+// Change password
+const getHashedPassword = (password) => {
+    const sha256 = crypto.createHash('sha256');
+    return sha256.update(password).digest('base64');
+}
+
+router.post('/change-password', connectEnsureLogin.ensureLoggedIn(), (req, res) => {
+    fs.readFile('./passwd', (err, data) => {
+       if (err) {
+           console.log(err);
+           res.render('password-form', {message: "Požadavek nebyl úspěšný"});
+           return;
+       }
+       if (data.toString() !== getHashedPassword(req.body.passwordOld)) {
+           res.render('password-form', {message: "Nesprávné staré heslo"});
+           return;
+       }
+       if (req.body.passwordNew !== req.body.passwordNew2) {
+           res.render('password-form', {message: "Heslá se nezhodují"});
+           return;
+       }
+       fs.writeFile('./passwd', getHashedPassword(req.body.passwordNew), err1 => {
+           if (err1) {
+               console.log(err1);
+               res.render('password-form', {message: "Požadavek nebyl úspěšný"});
+               return;
+           }
+           res.render('password-form', {successMessage: "Heslo změnené"});
+       });
     });
 });
 
