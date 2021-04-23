@@ -296,7 +296,11 @@ router.post('/post-new-attribute', connectEnsureLogin.ensureLoggedIn(), (req, re
                 console.log(`stdout: ${stdout}`);
                 console.log(`error: ${error.message}`);
                 logData(stdout, error, stderr);
-                res.json({success: false});
+                if (error.message.includes('cannot compute the user attributes signature!')) {
+                    res.json({success: false, raMissing: true});
+                } else {
+                    res.json({success: false});
+                }
                 rkvacUsed = false;
                 return;
             }
@@ -330,7 +334,11 @@ router.post('/post-new-EID', connectEnsureLogin.ensureLoggedIn(), (req, res) => 
                 console.log(`stdout: ${stdout}`);
                 console.log(`error: ${error.message}`);
                 logData(stdout, error, stderr);
-                res.json({success: false});
+                if (error.message.includes('cannot compute the user attributes signature!')) {
+                    res.json({success: false, raMissing: true});
+                } else {
+                    res.json({success: false});
+                }
                 rkvacUsed = false;
                 return;
             }
@@ -364,7 +372,11 @@ router.post('/post-new-ticket', connectEnsureLogin.ensureLoggedIn(), (req, res) 
                 console.log(`stdout: ${stdout}`);
                 console.log(`error: ${error.message}`);
                 logData(stdout, error, stderr);
-                res.json({success: false});
+                if (error.message.includes('cannot compute the user attributes signature!')) {
+                    res.json({success: false, raMissing: true});
+                } else {
+                    res.json({success: false});
+                }
                 rkvacUsed = false;
                 return;
             }
@@ -398,7 +410,11 @@ router.post('/post-new-card', connectEnsureLogin.ensureLoggedIn(), (req, res) =>
                 console.log(`stdout: ${stdout}`);
                 console.log(`error: ${error.message}`);
                 logData(stdout, error, stderr);
-                res.json({success: false});
+                if (error.message.includes('cannot compute the user attributes signature!')) {
+                    res.json({success: false, raMissing: true});
+                } else {
+                    res.json({success: false});
+                }
                 rkvacUsed = false;
                 return;
             }
@@ -434,7 +450,11 @@ router.post('/post-new-own', connectEnsureLogin.ensureLoggedIn(), (req, res) => 
         console.log(command);
         exec(command, (error, stdout, stderr) => {
             if (error) {
-                res.json({success: false});
+                if (error.message.includes('cannot compute the user attributes signature!')) {
+                    res.json({success: false, raMissing: true});
+                } else {
+                    res.json({success: false});
+                }
                 rkvacUsed = false;
                 console.log(`stdout: ${stdout}`);
                 console.log(`error: ${error.message}`);

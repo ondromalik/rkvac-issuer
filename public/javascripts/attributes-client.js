@@ -49,8 +49,10 @@
     function messageOK() {
         document.getElementById('messageTabelOK').hidden = true;
         document.getElementById('messageTabelError').hidden = true;
+        document.getElementById('raTabelError').hidden = true;
         document.getElementById('messageOK').hidden = false;
         document.getElementById('messageError').hidden = true;
+        document.getElementById('raError').hidden = true;
         document.getElementById('deleteAttributeOK').hidden = true;
         document.getElementById('deleteAttributeError').hidden = true;
     }
@@ -58,8 +60,10 @@
     function messageError() {
         document.getElementById('messageTabelOK').hidden = true;
         document.getElementById('messageTabelError').hidden = true;
+        document.getElementById('raTabelError').hidden = true;
         document.getElementById('messageOK').hidden = true;
         document.getElementById('messageError').hidden = false;
+        document.getElementById('raError').hidden = true;
         document.getElementById('deleteAttributeOK').hidden = true;
         document.getElementById('deleteAttributeError').hidden = true;
     }
@@ -107,6 +111,9 @@
                 }
                 if (!data.success) {
                     messageError();
+                    if (data.raMissing) {
+                        document.getElementById('raError').hidden = false;
+                    }
                     return;
                 }
                 throw new Error('Request failed.');
@@ -164,6 +171,9 @@
                 }
                 if (!data.success) {
                     messageError();
+                    if (data.raMissing) {
+                        document.getElementById('raError').hidden = false;
+                    }
                     return;
                 }
                 throw new Error('Request failed.');
@@ -220,6 +230,9 @@
                 }
                 if (!data.success) {
                     messageError();
+                    if (data.raMissing) {
+                        document.getElementById('raError').hidden = false;
+                    }
                     return;
                 }
                 throw new Error('Request failed.');
@@ -277,6 +290,9 @@
                 }
                 if (!data.success) {
                     messageError();
+                    if (data.raMissing) {
+                        document.getElementById('raError').hidden = false;
+                    }
                     return;
                 }
                 throw new Error('Request failed.');
@@ -348,6 +364,7 @@
                 if (data.success) {
                     document.getElementById('deleteAttributeOK').hidden = false;
                     document.getElementById('deleteAttributeError').hidden = true;
+                    document.getElementById('raTabelError').hidden = true;
                     document.getElementById('messageTabelOK').hidden = true;
                     document.getElementById('messageTabelError').hidden = true;
                     document.getElementById('messageOK').hidden = true;
@@ -358,6 +375,7 @@
                 if (!data.success) {
                     document.getElementById('deleteAttributeOK').hidden = true;
                     document.getElementById('deleteAttributeError').hidden = false;
+                    document.getElementById('raTabelError').hidden = true;
                     document.getElementById('messageTabelOK').hidden = true;
                     document.getElementById('messageTabelError').hidden = true;
                     document.getElementById('messageOK').hidden = true;
@@ -456,15 +474,27 @@
                         if (data.success) {
                             document.getElementById('messageTabelOK').hidden = false;
                             document.getElementById('messageTabelError').hidden = true;
+                            document.getElementById('raTabelError').hidden = true;
                             document.getElementById('messageOK').hidden = true;
                             document.getElementById('messageError').hidden = true;
                             document.getElementById('deleteAttributeOK').hidden = true;
                             document.getElementById('deleteAttributeError').hidden = true;
                             return;
                         }
-                        if (!data.success) {
+                        if (!data.success && data.raMissing) {
+                            document.getElementById('raTabelError').hidden = false;
                             document.getElementById('messageTabelOK').hidden = true;
                             document.getElementById('messageTabelError').hidden = false;
+                            document.getElementById('messageOK').hidden = true;
+                            document.getElementById('messageError').hidden = true;
+                            document.getElementById('deleteAttributeOK').hidden = true;
+                            document.getElementById('deleteAttributeError').hidden = true;
+                            return;
+                        }
+                        else if (!data.success) {
+                            document.getElementById('messageTabelOK').hidden = true;
+                            document.getElementById('messageTabelError').hidden = false;
+                            document.getElementById('raTabelError').hidden = true;
                             document.getElementById('messageOK').hidden = true;
                             document.getElementById('messageError').hidden = true;
                             document.getElementById('deleteAttributeOK').hidden = true;

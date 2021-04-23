@@ -33,6 +33,7 @@ block content
                     button.w3-btn.w3-round-medium.w3-blue-grey.w3-text-black.w3-border.w3-border-grey.w3-padding-small(id="btnAssignAttributes") Vydat pověření
                     p.w3-text-green(hidden=true id="messageTabelOK") Pověření vydané na kartu
                     p.w3-text-red(hidden=true id="messageTabelError") Požadavek nebyl úspěšný
+                    p.w3-text-red(hidden=true id="raTabelError") Na kartě chybí revokační handler
                     p.w3-text-green(hidden=true id="deleteAttributeOK") Pověření vymazáno
                     p.w3-text-green(hidden=true id="deleteAttributeError") Požadavek nebyl úspěšný
                     div(class="loader2" id="login-loader-2" hidden=true)
@@ -134,5 +135,6 @@ block content
                     div(class="loader" id="login-loader" hidden=true)
                     p.w3-text-green(hidden=true id="messageOK") Pověření vytvořené a vydané na kartu
                     p.w3-text-red(hidden=true id="messageError") Požadavek nebyl úspěšný
+                    p.w3-text-red(hidden=true id="raError") Na kartě chybí revokační handler
 
     script(src='attributes-client.js')
