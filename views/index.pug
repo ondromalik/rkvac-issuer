@@ -68,25 +68,25 @@ block content
 
     div.w3-card-4.w3-margin-top(style="width:50%;margin-left:25%")
         header.w3-container.w3-cyan
-            h3 Čtečky karet
+            h3 Smart-card readers
         div.w3-container
             div.w3-center.w3-margin-top
-                label.w3-text-red(id="cardStatus") Čtečka nedostupná
+                label.w3-text-red(id="cardStatus") Card unavailable
                 div(id="readerList")
             div.w3-container.w3-margin-bottom
-                p #[i Info: Kliknutím na čtečku ji otestujete.]
+                p #[i Info: Clicking on the reader will test a card in it.]
                 div(class="loader" id="login-loader" hidden=true)
-                label.w3-text-green(id="cardConnected" hidden=true) Karta je funkční
-                label.w3-text-red(id="cardDisconnected" hidden=true) Karta není funkční
-            div(id="reloadMessage" hidden=true)
-                p #[i V případě nezobrazení čtečky je nutné restartovat doplněk "Smart Card Extension", nebo celý prohlížeč.]
+                label.w3-text-green(id="cardConnected" hidden=true) Card works properly
+                label.w3-text-red(id="cardDisconnected" hidden=true) Card isn't working properly
+            div(id="reloadMessage")
+                p #[i In case that connected card-reader isn't listed, update Smart Card Extension, or restart browser.]
 
     div.w3-card-4.w3-margin-top(style="width:50%;margin-left:25%")
         header.w3-light-blue.w3-padding
-            h3 Reset aplikace
+            h3 Application reset
         div.w3-container.w3-padding
-            button.w3-button.w3-round-medium.w3-light-gray.w3-text-black.w3-border.w3-border-grey.w3-padding-small(id='resetRKVAC') Resetovat
+            button.w3-button.w3-round-medium.w3-light-gray.w3-text-black.w3-border.w3-border-grey.w3-padding-small(id='resetRKVAC') Reset
         div.w3-container.w3-padding(id="resetMessage" hidden=true)
-            label.w3-text-red Požadavek nebyl úspěšný
+            label.w3-text-red Request failed
 
     script(src='index-client.js')
