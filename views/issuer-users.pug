@@ -5,13 +5,13 @@ block content
     div.w3-cell-row
         div.w3-cell.w3-padding-16
             div.w3-container.w3-light-blue
-                h2 Uživatelé
+                h2 Users
             div.w3-container
                 div.w3-cell-row
                     div.w3-cell
-                        h4 Seznam uživatelů
+                        h4 List of users
                     div.w3-cell.w3-right-align
-                        label(id="updatedDate").w3-text-gray Aktualizováno: nikdy
+                        label(id="updatedDate").w3-text-gray Updated: never
                         a.w3-button.w3-circle.w3-hover-white(id="btnRefreshUsers")
                             i(class="fas fa-sync-alt")
 
@@ -21,27 +21,27 @@ block content
                             tr.w3-light-gray
                         tbody
                             tr
-                                td Seznam je prázdny
+                                td List is empty
 
         div.w3-container.w3-cell.w3-padding-16(style="width:33%")
             div.w3-card-4
                 div.w3-container.w3-blue-grey.w3-text-black
-                    h3 Nový uživatel
+                    h3 New user
                 div.w3-container.w3-margin-top(style="padding-bottom: 16px")
-                    label #[b Zvolte čtečku:]
+                    label #[b Select reader:]
                     div.w3-margin-bottom(id="readerList")
-                    p.w3-text-red(id="cardError") Čtečka není dostupná
-                    p.w3-text-red(hidden=true id="cardNotSelected") Není zvolená žádná čtečka
+                    p.w3-text-red(id="cardError") No available reader
+                    p.w3-text-red(hidden=true id="cardNotSelected") No reader selected
                     p
-                        label Jméno
+                        label Name
                         input.w3-input.w3-border.w3-round-medium(name="firstName" type="text" id="firstName")
                     p
-                        label Příjmení
+                        label Surname
                         input.w3-input.w3-border.w3-round-medium(name="lastName" type="text" id="lastName")
-                    button.w3-btn.w3-round-medium.w3-blue-grey.w3-text-black.w3-border.w3-border-grey.w3-padding-small(id="btnNewUser") Registrovat
+                    button.w3-btn.w3-round-medium.w3-blue-grey.w3-text-black.w3-border.w3-border-grey.w3-padding-small(id="btnNewUser") Personalize
                     div(class="loader" id="login-loader" hidden=true)
-                    p.w3-text-green(hidden=true id="messageOK") Karta úspěšně personalizovaná
-                    p.w3-text-red(hidden=true id="messageError") Kartu se nepodarilo personalizovat
-                    p.w3-text-red(hidden=true id="rkvacUsed") RKVAC knihovna je práve používána, skuste za chvíli
+                    p.w3-text-green(hidden=true id="messageOK") Card successfully personalized
+                    p.w3-text-red(hidden=true id="messageError") Card personalization failed
+                    p.w3-text-red(hidden=true id="rkvacUsed") RKVAC is currently used, try later
 
     script(src='users-client.js')

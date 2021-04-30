@@ -7,7 +7,7 @@ block content
             a(href="/users" style="text-decoration: none")
                 div.w3-card-4
                     div.w3-container.w3-blue-gray.w3-text-black(id='userPanel')
-                        h3 Uživatelé
+                        h3 Users
                     div.w3-container.w3-center.w3-padding-16.w3-text-dark-gray
                         i(class="fas fa-users fa-5x")
                     div.w3-bar.w3-blue-gray
@@ -17,7 +17,7 @@ block content
             a(href="/attributes" style="text-decoration: none")
                 div.w3-card-4
                     div.w3-container.w3-grey.w3-text-black(id='attributePanel')
-                        h3 Pověření
+                        h3 Credentials
                     div.w3-container.w3-center.w3-padding-16.w3-text-dark-gray
                         i(class="fas fa-clipboard-list fa-5x")
                     div.w3-bar.w3-grey(id='attributeFooter')
@@ -25,46 +25,46 @@ block content
 
     div.w3-card-4.w3-margin-top(style="width:50%;margin-left:25%" id="initiatingRKVAC")
         header.w3-container.w3-gray
-            h3 Inicializace aplikace RKVAC
+            h3 RKVAC initialization
         div.w3-container.w3-padding
-            p Aplikace není inicializována. Na stránce 'Uživatelé' vytvořte nového uživatele, čím aplikaci inicializujete.
+            p RKVAC is not initialized. Initialize the app by personalizing new card on 'Users' page.
 
     div.w3-card-4.w3-margin-top(style="width:50%;margin-left:25%")
         header.w3-container.w3-grey(id='keyPanel')
-            h3 Nástroje
+            h3 Tools
         div.w3-container
             table.w3-table
                 tr
-                    th(style="width:30%") Popis
-                    th Soubor
-                    th(style="width:30%") Akce
+                    th(style="width:30%") Description
+                    th File
+                    th(style="width:30%") Action
                 tr(id="downloadIEForm" hidden=true)
-                    td Soukromý klíč - vydavatel
+                    td Issuer's private key
                     td ie_sk.dat
                     td
                         form(action="/downloadKey" method="GET")
-                            button.w3-button.w3-round-medium.w3-light-gray.w3-text-black.w3-border.w3-border-grey.w3-padding-small.w3-margin-right(type='submit' value='Download' id="downloadKeyButton") Stáhnout
-                            button.w3-button.w3-round-medium.w3-light-gray.w3-text-black.w3-border.w3-border-grey.w3-padding-small(type='button' id="deleteIEButton") Vymazat
+                            button.w3-button.w3-round-medium.w3-light-gray.w3-text-black.w3-border.w3-border-grey.w3-padding-small.w3-margin-right(type='submit' value='Download' id="downloadKeyButton") Download
+                            button.w3-button.w3-round-medium.w3-light-gray.w3-text-black.w3-border.w3-border-grey.w3-padding-small(type='button' id="deleteIEButton") Delete
                 tr(id="uploadIEForm")
                     form(action="/uploadIEKey" method="POST" enctype="multipart/form-data")
-                        td(style="padding-left:16px") Soukromý klíč - vydavatel
+                        td(style="padding-left:16px") Issuer's private key
                         td
                             input.w3-input(type='file' name='ie_sk.dat')
                         td
-                            button.w3-button.w3-round-medium.w3-light-gray.w3-text-black.w3-border.w3-border-grey.w3-padding-small(type='submit' value='Upload') Nahrát
+                            button.w3-button.w3-round-medium.w3-light-gray.w3-text-black.w3-border.w3-border-grey.w3-padding-small(type='submit' value='Upload') Upload
                 tr(id='uploadForm')
                     form(action="/uploadKey" method="POST" enctype="multipart/form-data")
-                        td(style="padding-left:16px") Veřejný klíč - RA
+                        td(style="padding-left:16px") RA's public key
                         td
                             input.w3-input(type='file' name='ra_pk.dat')
                         td
-                            button.w3-button.w3-round-medium.w3-light-gray.w3-text-black.w3-border.w3-border-grey.w3-padding-small(type='submit' value='Upload') Nahrát
+                            button.w3-button.w3-round-medium.w3-light-gray.w3-text-black.w3-border.w3-border-grey.w3-padding-small(type='submit' value='Upload') Upload
                 tr(id="deleteForm" hidden=true)
                     //form(action="/deleteKey" method="GET")
-                    td(style="padding-left:16px") Veřejný klíč - RA
+                    td(style="padding-left:16px") RA's public key
                     td ra_pk.dat
                     td
-                        button.w3-button.w3-round-medium.w3-light-gray.w3-text-black.w3-border.w3-border-grey.w3-padding-small(id="deleteKeyButton") Vymazat
+                        button.w3-button.w3-round-medium.w3-light-gray.w3-text-black.w3-border.w3-border-grey.w3-padding-small(id="deleteKeyButton") Delete
 
     div.w3-card-4.w3-margin-top(style="width:50%;margin-left:25%")
         header.w3-container.w3-cyan

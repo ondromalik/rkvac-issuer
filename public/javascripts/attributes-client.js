@@ -27,7 +27,7 @@
 
         for (let i = 0; i < selectedValue; i++) {
             let label = document.createElement("label");
-            label.innerHTML = "Název #" + (i + 1);
+            label.innerHTML = "Attribute" + (i + 1);
             // label.setAttribute("class", "labels");
 
             let input = document.createElement("input");
@@ -315,7 +315,7 @@
         const attribFiles = await response.json();
         let date = new Date();
         let dateFormat = date.getHours() + ":" + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes() + ":" + (date.getSeconds() < 10 ? '0' : '') + date.getSeconds();
-        document.getElementById('updatedDate').innerHTML = "Aktualizováno: " + dateFormat;
+        document.getElementById('updatedDate').innerHTML = "Updated: " + dateFormat;
         if (attribFiles.error === true) {
             return;
         }
@@ -408,8 +408,8 @@
                     let row = header.insertRow(0);
                     let th1 = document.createElement('th');
                     let th2 = document.createElement('th');
-                    th1.innerHTML = "Název";
-                    th2.innerHTML = "Hodnota";
+                    th1.innerHTML = "Name";
+                    th2.innerHTML = "Value";
                     row.appendChild(th1);
                     row.appendChild(th2);
 

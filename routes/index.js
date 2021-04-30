@@ -33,12 +33,12 @@ router.use(flash());
 /* Functions loading content to users and attributes tables */
 
 const userData = {
-    headers: ["ID", "Jméno", "Přijímení"],
+    headers: ["ID", "First Name", "Last Name"],
     rows: []
 };
 
 const attribFiles = {
-    headers: ["Název"],
+    headers: ["Name"],
     rows: []
 };
 
@@ -578,24 +578,24 @@ router.post('/change-password', connectEnsureLogin.ensureLoggedIn(), (req, res) 
     fs.readFile('./passwd', (err, data) => {
        if (err) {
            console.log(err);
-           res.render('password-form', {message: "Požadavek nebyl úspěšný"});
+           res.render('password-form', {message: "Request failed"});
            return;
        }
        if (data.toString() !== getHashedPassword(req.body.passwordOld)) {
-           res.render('password-form', {message: "Nesprávné staré heslo"});
+           res.render('password-form', {message: "Bad old password"});
            return;
        }
        if (req.body.passwordNew !== req.body.passwordNew2) {
-           res.render('password-form', {message: "Heslá se nezhodují"});
+           res.render('password-form', {message: "New passwords don't match"});
            return;
        }
        fs.writeFile('./passwd', getHashedPassword(req.body.passwordNew), err1 => {
            if (err1) {
                console.log(err1);
-               res.render('password-form', {message: "Požadavek nebyl úspěšný"});
+               res.render('password-form', {message: "Request failed"});
                return;
            }
-           res.render('password-form', {successMessage: "Heslo změnené"});
+           res.render('password-form', {successMessage: "Password changed"});
        });
     });
 });

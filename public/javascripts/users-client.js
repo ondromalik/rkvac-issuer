@@ -67,7 +67,7 @@
         const userData = await response.json();
         let date = new Date();
         let dateFormat = date.getHours() + ":" + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes() + ":" + (date.getSeconds() < 10 ? '0' : '') + date.getSeconds();
-        document.getElementById('updatedDate').innerHTML = "Aktualizováno: " + dateFormat;
+        document.getElementById('updatedDate').innerHTML = "Updated: " + dateFormat;
         if (userData.error === true) {
             console.log("Failed to get data");
             return;

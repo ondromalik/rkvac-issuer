@@ -5,13 +5,13 @@ block content
     div.w3-cell-row
         div.w3-cell.w3-padding-16
             div.w3-container.w3-light-blue
-                h2 Pověření
+                h2 Credentials
             div.w3-container
                 div.w3-cell-row
                     div.w3-cell
-                        h4 Seznam pověření
+                        h4 List of credentials
                     div.w3-cell.w3-right-align
-                        label(id="updatedDate").w3-text-gray Aktualizováno: nikdy
+                        label(id="updatedDate").w3-text-gray Updated: never
                         a.w3-button.w3-circle.w3-hover-white(id="btnRefreshAttributes")
                             i(class="fas fa-sync-alt")
 
@@ -21,28 +21,28 @@ block content
                             tr.w3-light-gray
                         tbody
                             tr
-                                td Seznam je prázdny
+                                td List is empty
 
                 div.w3-padding-16.w3-right-align
-                    label #[b Zvolte čtečku:]
+                    label #[b Select reader:]
                     div(id="readerList2")
-                    p.w3-text-red(id="cardError2") Čtečka není dostupná
-                    p.w3-text-red(hidden=true id="cardNotSelected2") Není zvolená žádná čtečka
-                    p.w3-text-red(hidden=true id="fileNotSelected") Není zvoleno žádné pověření
+                    p.w3-text-red(id="cardError2") No available reader
+                    p.w3-text-red(hidden=true id="cardNotSelected2") No reader selected
+                    p.w3-text-red(hidden=true id="fileNotSelected") No credentials selected
                 div.w3-right-align.w3-padding-16
-                    button.w3-btn.w3-round-medium.w3-blue-grey.w3-text-black.w3-border.w3-border-grey.w3-padding-small(id="btnAssignAttributes") Vydat pověření
-                    p.w3-text-green(hidden=true id="messageTabelOK") Pověření vydané na kartu
-                    p.w3-text-red(hidden=true id="messageTabelError") Požadavek nebyl úspěšný
-                    p.w3-text-red(hidden=true id="raTabelError") Na kartě chybí revokační handler
-                    p.w3-text-green(hidden=true id="deleteAttributeOK") Pověření vymazáno
-                    p.w3-text-green(hidden=true id="deleteAttributeError") Požadavek nebyl úspěšný
+                    button.w3-btn.w3-round-medium.w3-blue-grey.w3-text-black.w3-border.w3-border-grey.w3-padding-small(id="btnAssignAttributes") Assign credentials
+                    p.w3-text-green(hidden=true id="messageTabelOK") Credentials successfully assigned
+                    p.w3-text-red(hidden=true id="messageTabelError") Request failed
+                    p.w3-text-red(hidden=true id="raTabelError") The card is missing revocation handler
+                    p.w3-text-green(hidden=true id="deleteAttributeOK") Credentials deleted
+                    p.w3-text-green(hidden=true id="deleteAttributeError") Request failed
                     div(class="loader2" id="login-loader-2" hidden=true)
 
                 div.w3-modal(id="attributeInfo")
                     div.w3-modal-content.w3-card-4(style="width:30%")
                         header.w3-container.w3-cyan
                             span.w3-button.w3-display-topright(onclick="document.getElementById('attributeInfo').style.display='none'") &times;
-                            h4 Detaily pověření
+                            h4 Credentials details
                         div.w3-container
                             table.w3-table-all.w3-margin-bottom.w3-margin-top(id='attributeList')
 
@@ -50,73 +50,73 @@ block content
         div.w3-container.w3-cell.w3-padding-16(style="width:40%")
             div.w3-card-4
                 div.w3-container.w3-blue-grey.w3-text-black
-                    h3 Nové pověření
+                    h3 New credentials
 
                 div.w3-bar.w3-light-gray
                     button.w3-bar-item.w3-button.w3-blue-gray.w3-text-black.w3-hover-blue-gray.w3-hover-text-black(onclick="changeAttribForm('EID','menuButtonEID')" id="menuButtonEID" class="attribBtn") EID
                     button.w3-bar-item.w3-button.w3-text-black.w3-hover-blue-gray.w3-hover-text-black(onclick="changeAttribForm('ticket','menuButtonTicket')" id="menuButtonTicket" class="attribBtn") Ticket
-                    button.w3-bar-item.w3-button.w3-text-black.w3-hover-blue-gray.w3-hover-text-black(onclick="changeAttribForm('card','menuButtonCard')" id="menuButtonCard" class="attribBtn") Karta zamestnanca
-                    button.w3-bar-item.w3-button.w3-text-black.w3-hover-blue-gray.w3-hover-text-black(onclick="changeAttribForm('own','menuButtonOwn')" id="menuButtonOwn" class="attribBtn") Vlastné
+                    button.w3-bar-item.w3-button.w3-text-black.w3-hover-blue-gray.w3-hover-text-black(onclick="changeAttribForm('card','menuButtonCard')" id="menuButtonCard" class="attribBtn") Employee's card
+                    button.w3-bar-item.w3-button.w3-text-black.w3-hover-blue-gray.w3-hover-text-black(onclick="changeAttribForm('own','menuButtonOwn')" id="menuButtonOwn" class="attribBtn") Own
 
                 div.w3-container.w3-margin-top
-                    label #[b Zvolte čtečku:]
+                    label #[b Select reader:]
                     div.w3-margin-bottom(id="readerList")
-                    p.w3-text-red(id="cardError") Čtečka není dostupná
-                    p.w3-text-red(hidden=true id="cardNotSelected") Není zvolená žádná čtečka
+                    p.w3-text-red(id="cardError") No available reader
+                    p.w3-text-red(hidden=true id="cardNotSelected") No reader selected
                     p
-                        label Název pověření
+                        label Title
                         input.w3-input.w3-border.w3-round-medium(name="attributeName" type="text" id="attributeName")
 
                 div.w3-container(style="padding-bottom: 16px" id="EID" class="poverenie")
                     p
-                        label Jméno a příjmení
+                        label Name and Surname
                         input.w3-input.w3-border.w3-round-medium(name="newAttribute" type="text" id="EIDName")
                     p
-                        label Datum narození
+                        label Birthdate
                         input.w3-input.w3-border.w3-round-medium(name="newAttribute" type="text" id="EIDBirthdate")
                     p
-                        label Národnost
+                        label Nationality
                         input.w3-input.w3-border.w3-round-medium(name="newAttribute" type="text" id="EIDNationality")
                     p
-                        label Adresa trvalého bydliště
+                        label Permanent residence
                         input.w3-input.w3-border.w3-round-medium(name="newAttribute" type="text" id="EIDAddress")
                     p
-                        label Pohlaví
+                        label Sex
                         input.w3-input.w3-border.w3-round-medium(name="newAttribute" type="text" id="EIDSex")
-                    button.w3-btn.w3-round-medium.w3-blue-grey.w3-text-black.w3-border.w3-border-grey.w3-padding-small(id="btnNewEID") Vydat pověření
+                    button.w3-btn.w3-round-medium.w3-blue-grey.w3-text-black.w3-border.w3-border-grey.w3-padding-small(id="btnNewEID") Assign credentials
 
                 div.w3-container(style="padding-bottom: 16px;display:none" id="ticket" class="poverenie")
                     p
-                        label Jméno a příjmení
+                        label Name and Surname
                         input.w3-input.w3-border.w3-round-medium(name="newAttribute" type="text" id="ticketName")
                     p
-                        label Číslo karty
+                        label Card number
                         input.w3-input.w3-border.w3-round-medium(name="newAttribute" type="text" id="ticketNumber")
                     p
-                        label Typ
+                        label Type of ticket
                         input.w3-input.w3-border.w3-round-medium(name="newAttribute" type="text" id="ticketType")
-                    button.w3-btn.w3-round-medium.w3-blue-grey.w3-text-black.w3-border.w3-border-grey.w3-padding-small(id="btnNewTicket") Vydat pověření
+                    button.w3-btn.w3-round-medium.w3-blue-grey.w3-text-black.w3-border.w3-border-grey.w3-padding-small(id="btnNewTicket") Assign credentials
 
                 div.w3-container(style="padding-bottom: 16px;display:none" id="card" class="poverenie")
                     p
-                        label Jméno a příjmení
+                        label Name and Surname
                         input.w3-input.w3-border.w3-round-medium(name="newAttribute" type="text" id="cardName")
                     p
-                        label ID zamestnanca
+                        label Employee id
                         input.w3-input.w3-border.w3-round-medium(name="newAttribute" type="text" id="cardID")
                     p
-                        label Zamestnávatel
+                        label Employer
                         input.w3-input.w3-border.w3-round-medium(name="newAttribute" type="text" id="cardEmployer")
                     p
-                        label Pozícia zamestnanca
+                        label Employee position
                         input.w3-input.w3-border.w3-round-medium(name="newAttribute" type="text" id="cardPosition")
-                    button.w3-btn.w3-round-medium.w3-blue-grey.w3-text-black.w3-border.w3-border-grey.w3-padding-small(id="btnNewCard") Vydat pověření
+                    button.w3-btn.w3-round-medium.w3-blue-grey.w3-text-black.w3-border.w3-border-grey.w3-padding-small(id="btnNewCard") Assign credentials
 
                 div.w3-container(style="padding-bottom: 16px;display:none" id="own" class="poverenie")
                     p
-                        label Počet atribútov
+                        label Number of attributes
                         select.w3-select.w3-border.w3-round-medium(id="attributeCount" name="attributeCount")
-                            option(value="" selected="selected" disabled) Vyberte počet
+                            option(value="" selected="selected" disabled) select number
                             option(value="1") 1
                             option(value="2") 2
                             option(value="3") 3
@@ -127,14 +127,11 @@ block content
                             option(value="8") 8
                             option(value="9") 9
                     p(id="ownAttributes")
-                    //p
-                    //    label Název
-                    //    input.w3-input.w3-border.w3-round-medium(name="newAttribute" type="text" id="own1")
-                    button.w3-btn.w3-round-medium.w3-blue-grey.w3-text-black.w3-border.w3-border-grey.w3-padding-small(id="btnNewOwn") Vydat pověření
+                    button.w3-btn.w3-round-medium.w3-blue-grey.w3-text-black.w3-border.w3-border-grey.w3-padding-small(id="btnNewOwn") Assign credentials
                 div.w3-container.w3-left-align
                     div(class="loader" id="login-loader" hidden=true)
-                    p.w3-text-green(hidden=true id="messageOK") Pověření vytvořené a vydané na kartu
-                    p.w3-text-red(hidden=true id="messageError") Požadavek nebyl úspěšný
-                    p.w3-text-red(hidden=true id="raError") Na kartě chybí revokační handler
+                    p.w3-text-green(hidden=true id="messageOK") Credentials successfully created and assigned
+                    p.w3-text-red(hidden=true id="messageError") Request failed
+                    p.w3-text-red(hidden=true id="raError") The card is missing revocation handler
 
     script(src='attributes-client.js')
