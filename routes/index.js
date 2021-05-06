@@ -582,7 +582,7 @@ router.post('/change-password', connectEnsureLogin.ensureLoggedIn(), (req, res) 
            return;
        }
        if (data.toString() !== getHashedPassword(req.body.passwordOld)) {
-           res.render('password-form', {message: "Bad old password"});
+           res.render('password-form', {message: "Incorrect old password"});
            return;
        }
        if (req.body.passwordNew !== req.body.passwordNew2) {
