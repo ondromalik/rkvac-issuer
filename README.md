@@ -22,8 +22,5 @@
   `npm run serverstart`
 - server runs on https://localhost:10443
 
-## User manual:
-- in progress
-
 ## Contact:
 xmalik19@stud.feec.vutbr.cz
