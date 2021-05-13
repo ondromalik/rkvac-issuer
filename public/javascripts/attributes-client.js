@@ -250,6 +250,7 @@
     });
 
     document.getElementById('btnNewOwn').addEventListener('click', function () {
+        let startTime = Date.now();
         startLoader();
         document.getElementById('cardNotSelected').hidden = true;
         let tableRows = document.getElementsByClassName('cardSelector');
@@ -281,6 +282,7 @@
             body: JSON.stringify(newOwn),
             headers: {'Content-Type': 'application/json'}
         }).then(function (response) {
+            console.log(Date.now() - startTime);
             response.json().then((data) => {
                 hideLoader();
                 if (data.success) {
@@ -441,7 +443,6 @@
     })
 
     document.getElementById('btnAssignAttributes').addEventListener('click', function () {
-        let startTime = Date.now();
         startLoader2();
         document.getElementById('cardNotSelected2').hidden = true;
         document.getElementById('fileNotSelected').hidden = true;
@@ -470,7 +471,6 @@
                     body: JSON.stringify(selectedFile),
                     headers: {'Content-Type': 'application/json'}
                 }).then(function (response) {
-                    console.log(startTime - Date.now());
                     response.json().then((data) => {
                         hideLoader2();
                         if (data.success) {
