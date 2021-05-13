@@ -295,6 +295,7 @@ router.post('/post-new-user', connectEnsureLogin.ensureLoggedIn(), (req, res) =>
 
 router.post('/post-new-attribute', connectEnsureLogin.ensureLoggedIn(), (req, res) => {
     if (!rkvacUsed) {
+        let startTime = Date.now();
         rkvacUsed = true;
         console.log('Got body:', req.body);
         var command = "printf '\\ny' | ./rkvac-protocol-multos-1.0.0 -i -a " + req.body.fileName;
@@ -320,6 +321,7 @@ router.post('/post-new-attribute', connectEnsureLogin.ensureLoggedIn(), (req, re
                 return;
             }
             logData(stdout, error, stderr);
+            console.log(startTime - Date.now());
             res.json({success: true});
             rkvacUsed = false;
             console.log(`stdout: ${stdout}`);
