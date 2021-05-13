@@ -470,7 +470,7 @@
                     body: JSON.stringify(selectedFile),
                     headers: {'Content-Type': 'application/json'}
                 }).then(function (response) {
-                    console.log("Time in milliseconds: " + startTime - Date.now());
+                    console.log(startTime - Date.now());
                     response.json().then((data) => {
                         hideLoader2();
                         if (data.success) {
