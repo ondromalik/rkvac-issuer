@@ -30,7 +30,7 @@
             body: JSON.stringify(newUser),
             headers: {'Content-Type': 'application/json'}
         }).then((response) => {
-            console.log("Time in milliseconds: " + startTime - Date.now());
+            console.log(startTime - Date.now());
             response.json().then((data) => {
                 hideLoader();
                 document.getElementById('rkvacUsed').hidden = true;
