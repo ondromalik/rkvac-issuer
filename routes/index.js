@@ -260,7 +260,6 @@ let rkvacUsed = false;
 
 router.use(bodyParser.json());
 router.post('/post-new-user', connectEnsureLogin.ensureLoggedIn(), (req, res) => {
-    let startTime = Date.now();
     if (!rkvacUsed) {
         rkvacUsed = true;
         console.log('Got body:', req.body.name, req.body.surname);
@@ -283,7 +282,6 @@ router.post('/post-new-user', connectEnsureLogin.ensureLoggedIn(), (req, res) =>
                 return;
             }
             logData(stdout, error, stderr);
-            console.log(startTime - Date.now());
             res.json({success: true});
             rkvacUsed = false;
             console.log(`stdout: ${stdout}`);
