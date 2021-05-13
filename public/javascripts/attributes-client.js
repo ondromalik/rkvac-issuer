@@ -250,7 +250,6 @@
     });
 
     document.getElementById('btnNewOwn').addEventListener('click', function () {
-        let startTime = Date.now();
         startLoader();
         document.getElementById('cardNotSelected').hidden = true;
         let tableRows = document.getElementsByClassName('cardSelector');
@@ -282,7 +281,6 @@
             body: JSON.stringify(newOwn),
             headers: {'Content-Type': 'application/json'}
         }).then(function (response) {
-            console.log(Date.now() - startTime);
             response.json().then((data) => {
                 hideLoader();
                 if (data.success) {

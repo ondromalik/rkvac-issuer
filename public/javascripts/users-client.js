@@ -3,7 +3,6 @@
     const btnNewUser = document.getElementById('btnNewUser');
     btnNewUser.addEventListener('click', function (e) {
         startLoader();
-        let startTime = Date.now();
         document.getElementById('cardNotSelected').hidden = true;
         let tableRows = document.getElementsByClassName('cardSelector');
         let selectedCard = "";
@@ -30,7 +29,6 @@
             body: JSON.stringify(newUser),
             headers: {'Content-Type': 'application/json'}
         }).then((response) => {
-            console.log(startTime - Date.now());
             response.json().then((data) => {
                 hideLoader();
                 document.getElementById('rkvacUsed').hidden = true;

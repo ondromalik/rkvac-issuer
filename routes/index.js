@@ -444,7 +444,6 @@ router.post('/post-new-card', connectEnsureLogin.ensureLoggedIn(), (req, res) =>
 });
 
 router.post('/post-new-own', connectEnsureLogin.ensureLoggedIn(), (req, res) => {
-    let startTime = Date.now();
     if (!rkvacUsed) {
         rkvacUsed = true;
         console.log('Got body:', req.body);
@@ -478,7 +477,6 @@ router.post('/post-new-own', connectEnsureLogin.ensureLoggedIn(), (req, res) => 
                 return;
             }
             logData(stdout, error, stderr);
-            console.log(Date.now() - startTime);
             res.json({success: true});
             rkvacUsed = false;
             console.log(`stdout: ${stdout}`);
