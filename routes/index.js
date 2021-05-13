@@ -17,7 +17,8 @@ const connectEnsureLogin = require('connect-ensure-login');
 router.use(session({
     secret: 'some-secret',
     saveUninitialized: false,
-    resave: true
+    resave: true,
+    store: 'connect-mongo'
 }));
 
 // For parsing post request's data/body
