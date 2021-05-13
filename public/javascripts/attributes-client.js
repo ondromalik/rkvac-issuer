@@ -441,6 +441,7 @@
     })
 
     document.getElementById('btnAssignAttributes').addEventListener('click', function () {
+        let startTime = Date.now();
         startLoader2();
         document.getElementById('cardNotSelected2').hidden = true;
         document.getElementById('fileNotSelected').hidden = true;
@@ -469,6 +470,7 @@
                     body: JSON.stringify(selectedFile),
                     headers: {'Content-Type': 'application/json'}
                 }).then(function (response) {
+                    console.log("Time in milliseconds: " + startTime - Date.now());
                     response.json().then((data) => {
                         hideLoader2();
                         if (data.success) {
