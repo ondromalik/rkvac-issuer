@@ -1,26 +1,21 @@
 # Issuer`s App
 
-## Functions:
-- creating and assigning users to ID card
-- creating and assigning attributes to ID card (EID, Ticket, Card, User defined)
-- authentication via username & password
-- remote ID card
-- user interface details
-
 ## Dependencies:
-- nodeJS, npm
-- npm -i
-- WebCard: https://github.com/cardid/webcard
+* nodeJS, npm
+* WebCard: https://github.com/cardid/webcard
 
 ## Installation:
-- build RKVAC C app directly in project folder
-- run (for installing node_modules):
-
-  `npm install`
-- for starting the server run command:
-
+* Download the web application to the server.
+* Install all dependencies for RKVAC application.
+* Follow the instructions for debugging RKVAC application with these specialties:
+  * there is no need to patch pcsc library, due to the remote communication with the card
+  * build option for remote communication with ID card should be set to `-DRKVAC_PROTOCOL_REMOTE`
+  * TCP port for communication between RKVAC and web application needs to be set in the header file to 5002. The port can be specified before debugging in the header file
+* Copy the RKVAC executable to the parent folder of web application.
+  * The executable should be named `rkvac-protocol-multos-1.0.0`.
+* Run server using:
   `npm run serverstart`
-- server runs on https://localhost:10443
+* Connect to web server using address https://<server-address>:10443/
 
-## Contact:
-xmalik19@stud.feec.vutbr.cz
+## Usage:
+* See diploma_manual.pdf
