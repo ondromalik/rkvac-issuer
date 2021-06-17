@@ -3,6 +3,7 @@ var router = express.Router();
 var path = require('path');
 //const csv = require('csv-parser');
 const fs = require('fs');
+const fse = require('fs-extra');
 const readline = require('readline');
 const bodyParser = require('body-parser');
 const {exec} = require("child_process");
@@ -557,13 +558,14 @@ router.post('/show-attribute', connectEnsureLogin.ensureLoggedIn(), (req, res) =
 });
 
 router.post('/deleteData', connectEnsureLogin.ensureLoggedIn(), (req, res) => {
-    fs.rmdir('./data', {recursive: true}, err => {
+    fse.move('./data', '/tmp/data/', {overwrite: true}, (err) => {
         if (err) {
             console.log(err);
             res.json({success: false});
             return;
         }
         logData("RKVAC reseted");
+        console.log("Data deleted");
         res.json({success: true});
     });
 });
@@ -576,27 +578,27 @@ const getHashedPassword = (password) => {
 
 router.post('/change-password', connectEnsureLogin.ensureLoggedIn(), (req, res) => {
     fs.readFile('./passwd', (err, data) => {
-       if (err) {
-           console.log(err);
-           res.render('password-form', {message: "Request failed"});
-           return;
-       }
-       if (data.toString() !== getHashedPassword(req.body.passwordOld)) {
-           res.render('password-form', {message: "Incorrect old password"});
-           return;
-       }
-       if (req.body.passwordNew !== req.body.passwordNew2) {
-           res.render('password-form', {message: "New passwords don't match"});
-           return;
-       }
-       fs.writeFile('./passwd', getHashedPassword(req.body.passwordNew), err1 => {
-           if (err1) {
-               console.log(err1);
-               res.render('password-form', {message: "Request failed"});
-               return;
-           }
-           res.render('password-form', {successMessage: "Password changed"});
-       });
+        if (err) {
+            console.log(err);
+            res.render('password-form', {message: "Request failed"});
+            return;
+        }
+        if (data.toString() !== getHashedPassword(req.body.passwordOld)) {
+            res.render('password-form', {message: "Incorrect old password"});
+            return;
+        }
+        if (req.body.passwordNew !== req.body.passwordNew2) {
+            res.render('password-form', {message: "New passwords don't match"});
+            return;
+        }
+        fs.writeFile('./passwd', getHashedPassword(req.body.passwordNew), err1 => {
+            if (err1) {
+                console.log(err1);
+                res.render('password-form', {message: "Request failed"});
+                return;
+            }
+            res.render('password-form', {successMessage: "Password changed"});
+        });
     });
 });
 
