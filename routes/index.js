@@ -486,7 +486,14 @@ router.post('/post-new-own', connectEnsureLogin.ensureLoggedIn(), (req, res) => 
 });
 
 router.post('/uploadKey', connectEnsureLogin.ensureLoggedIn(), (req, res) => {
-    // 'profile_pic' is the name of our file input field in the HTML form
+    if (!fs.existsSync('./data')) {
+        try {
+            fs.mkdirSync('./data/Issuer', {recursive: true})
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
     let upload = multer({storage: storage, fileFilter: keyFilter}).single('ra_pk.dat');
 
     upload(req, res, function (err) {
@@ -505,7 +512,14 @@ router.post('/uploadKey', connectEnsureLogin.ensureLoggedIn(), (req, res) => {
 });
 
 router.post('/uploadIEKey', connectEnsureLogin.ensureLoggedIn(), (req, res) => {
-    // 'profile_pic' is the name of our file input field in the HTML form
+    if (!fs.existsSync('./data')) {
+        try {
+            fs.mkdirSync('./data/Issuer', {recursive: true})
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
     let upload = multer({storage: storage, fileFilter: keyFilter}).single('ie_sk.dat');
 
     upload(req, res, function (err) {
